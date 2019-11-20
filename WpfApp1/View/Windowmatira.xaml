@@ -95,7 +95,6 @@
 
                         <ItemsControl.ItemTemplate>
                             <DataTemplate> 
-                                <!--ف4ثقا-->
                                 <Grid Height="150">
                                     <StackPanel>
                                         <TextBlock FontSize="20" Name="NameType" Text="{Binding Name }" FontWeight="Bold" ></TextBlock>
