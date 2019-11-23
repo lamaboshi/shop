@@ -9,7 +9,7 @@ namespace WpfApp1.Model
 {
    public class ContactContext:DbContext
     {
-        public ContactContext() : base(@"Data Source=.;Initial Catalog=StoreMini;Integrated Security=True")
+        public ContactContext() : base("Name=ConnectionStringLama")
         {
 
         }

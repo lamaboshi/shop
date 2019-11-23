@@ -17,6 +17,7 @@ namespace WpfApp1.ViewModel
         #region -   Initialize  -
 
         private ContactContext Context;
+        ObservableCollection<Model.Materail> C_Materail;
 
         #region -   Constructor    -
         public MateriaViewModel()
@@ -34,6 +35,7 @@ namespace WpfApp1.ViewModel
             FillListItemToType();
             FillMaterial();
             //FillStor();
+
         }
 
 
@@ -48,28 +50,33 @@ namespace WpfApp1.ViewModel
 
             get {
                 return _CommandAddToChake = new Command(() =>
-            {
-
+                {
+                    
+                    _CollecMaterail = C_Materail;
                 List<int> IdsType = new List<int>();
                 foreach (var item in ListItemOfType)
                 {
                     if (item.IsChecked)
                         IdsType.Add(item.Id);
                 }
+
+
                 ObservableCollection<Model.Materail> NewList = new ObservableCollection<Model.Materail>();
                 foreach (var materail in CollecMaterail)
                 {
                     if (IdsType.Contains(materail.type.Id))
                     {
                         NewList.Add(materail);
-
                     }
                     _CollecMaterail = NewList;
                     OnPropertyChanged(nameof(CollecMaterail));
                 }
+
             }); }
             set { _CommandAddToChake = value; }
         }
+
+        
 
         private ICommand _CommandDelete;
         public ICommand CommandDelete
@@ -77,15 +84,31 @@ namespace WpfApp1.ViewModel
             get {
                 return _CommandDelete = new CommandT<int>(id =>
             {
-                foreach (var item in CollecMaterail.ToList())
-                {
-                    if (item.Id == id)
-                        //item.Isdelete = true;
-                        _CollecMaterail.Remove(item);
-                }
+                //foreach (var item in CollecMaterail.ToList())
+                //{
+                //    if (item.Id == id)
+                //    {
+                //        _CollecMaterail.Remove(item);
+                //        C_Materail.Remove(item);
+                //        Context.Materails.Find(id).Isdelete=true;
+                //        Context.SaveChanges();
+                //        return;
+                //    }
+                //}
+
+                var One = CollecMaterail.Where(item=>item.Id==id).FirstOrDefault();
+                _CollecMaterail.Remove(One);
+                C_Materail.Remove(One);
+                Context.Materails.Find(id).Isdelete = true;
+                Context.SaveChanges();
+                return;
+
             }); }
             set { _CommandDelete = value; }
         }
+
+
+
         private ICommand _CommandUpdate;
         public ICommand CommandUpdate
         {
@@ -97,16 +120,20 @@ namespace WpfApp1.ViewModel
                       {
                           if (matupdate.Id == IdUpdate)
                           {
+                              var s = _CollecMaterail.Single(m => m.Id == IdUpdate);
                               Materail IdS = Context.Materails.Single(M => M.Id == IdUpdate);
-                              IdS.Name = _name;
-                              IdS.type.Name = _nameType;
+                              IdS.Name = s.Name;
+                             // IdS.type.Name = _nameType;
+                              Context.SaveChanges();
+                              
+                              return;
                           
                           }
                       }
-                      Context.SaveChanges();
                   });}
             set{_CommandUpdate=value;}
         }
+
         private ICommand _CommandAdd;
         public ICommand CommandAdd
         {
@@ -123,6 +150,21 @@ namespace WpfApp1.ViewModel
             }
             set { _CommandAdd = value; }
         }
+
+
+
+        private ICommand _CommandOpenAdd;
+        public ICommand CommandOpenAdd
+        {
+            get { return _CommandOpenAdd=new Command(() =>
+            {
+                _IsOpenAdd = true;
+                OnPropertyChanged(nameof(IsOpenAdd));
+            }); }
+            set { _CommandOpenAdd = value; }
+        }
+
+
         #endregion
 
         #region -   Action  -
@@ -150,7 +192,6 @@ namespace WpfApp1.ViewModel
 
             OnPropertyChanged(nameof(ListItemOfType));
 
-
         }
         private void FillMaterial()
         {
@@ -159,11 +200,14 @@ namespace WpfApp1.ViewModel
                 Where(m => !m.Isdelete).
                 ToObservableCollection();
             OnPropertyChanged(nameof(CollecMaterail));
+
+
+            C_Materail = _CollecMaterail.ToObservableCollection();
         }
         private void Add(ObservableCollection<Model.Materail> add)
         {
 
-            Context.Materails.FirstOrDefault(_CollecMaterail);
+           // Context.Materails.FirstOrDefault(_CollecMaterail);
         }
 
 
@@ -242,6 +286,8 @@ namespace WpfApp1.ViewModel
             get { return _name; }
             set { _name = value; }
         }
+
+
         private string _nameType;
         public string nameType
         {
@@ -262,6 +308,14 @@ namespace WpfApp1.ViewModel
         }
 
 
+        private string _NameMaterial;
+        public string NameMaterial
+        {
+            get { return _NameMaterial; }
+            set { _NameMaterial = value; }
+        }
+
+
         #endregion
 
         #region -   Date    -
@@ -278,6 +332,12 @@ namespace WpfApp1.ViewModel
 
         #region -   Bool    -
 
+        private bool _IsOpenAdd;
+        public bool IsOpenAdd
+        {
+            get { return _IsOpenAdd; }
+            set { _IsOpenAdd = value; }
+        }
 
 
         #endregion

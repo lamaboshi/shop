@@ -82,6 +82,9 @@
     <Compile Include="Util\Extension Method\ExtensionMethod.cs" />
     <Compile Include="ViewModel\BaseViewModel.cs" />
     <Compile Include="ViewModel\MateriaViewModel.cs" />
+    <Compile Include="View\AddMaterialUserControl.xaml.cs">
+      <DependentUpon>AddMaterialUserControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\WindowBill.xaml.cs">
       <DependentUpon>WindowBill.xaml</DependentUpon>
     </Compile>
@@ -106,6 +109,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="View\AddMaterialUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\WindowBill.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

@@ -11,92 +11,101 @@
     <Window.DataContext>
         <ViewModels:MateriaViewModel/>
     </Window.DataContext>
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="55"/>
-            <RowDefinition Height="*" />
-            <RowDefinition Height="55"/>
 
-        </Grid.RowDefinitions>
-        <Grid Grid.Row="0" Background="#FFCDCBCB">
-            <DockPanel >
-                <Button Background="#FF3B4583" DockPanel.Dock="Left" Width="100" Command="{Binding CommandAddToChake}" >
-                    <TextBlock Text="Fliter" Foreground="Beige"></TextBlock>
-                </Button>
-                <ItemsControl ItemsSource="{Binding ListItemOfType,UpdateSourceTrigger=PropertyChanged,NotifyOnSourceUpdated=True,NotifyOnTargetUpdated=True}" >
+    <materialDesign:DialogHost IsOpen="{Binding IsOpenAdd,UpdateSourceTrigger=PropertyChanged}">
+        <materialDesign:DialogHost.DialogContent>
+            <local:AddMaterialUserControl/>
+        </materialDesign:DialogHost.DialogContent>
+
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="55"/>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="55"/>
+
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0" Background="#FFCDCBCB">
+                <DockPanel >
+                    <Button Background="#FF3B4583" DockPanel.Dock="Left" Width="100" Command="{Binding CommandAddToChake}" >
+                        <TextBlock Text="Fliter" Foreground="Beige"></TextBlock>
+                    </Button>
+                    <ItemsControl ItemsSource="{Binding ListItemOfType,UpdateSourceTrigger=PropertyChanged,NotifyOnSourceUpdated=True,NotifyOnTargetUpdated=True}" >
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <CheckBox Content="{Binding Name}" IsChecked="{Binding IsChecked,UpdateSourceTrigger=PropertyChanged,NotifyOnSourceUpdated=True,NotifyOnTargetUpdated=True}" Margin="8" ></CheckBox>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </DockPanel>
+            </Grid>
+            <Grid Grid.Row="1">
+                <ItemsControl ItemsSource="{Binding CollecMaterail,UpdateSourceTrigger=PropertyChanged,NotifyOnSourceUpdated=True,NotifyOnTargetUpdated=True}" >
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
-                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" />
+                            <WrapPanel/>
                         </ItemsPanelTemplate>
                     </ItemsControl.ItemsPanel>
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <CheckBox Content="{Binding Name}" IsChecked="{Binding IsChecked,UpdateSourceTrigger=PropertyChanged,NotifyOnSourceUpdated=True,NotifyOnTargetUpdated=True}" Margin="8" ></CheckBox>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-            </DockPanel>
-        </Grid>
-        <Grid Grid.Row="1">
-            <ItemsControl ItemsSource="{Binding CollecMaterail,UpdateSourceTrigger=PropertyChanged,NotifyOnSourceUpdated=True,NotifyOnTargetUpdated=True}" >
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <WrapPanel/>
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <Grid Height="160" Width="250" >
-                            <Border Margin="6" BorderThickness="3.5" CornerRadius="5,45,4,45"  BorderBrush="#FF8C829B" Background="White" >
-                                <Grid>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="25"/>
-                                        <RowDefinition Height="83"/>
-                                        <RowDefinition Height="*"/>
-                                    </Grid.RowDefinitions>
-                                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Top" Foreground="#FF3B4583" FontWeight="Bold" FontSize="18" Text="{Binding type.Name}" ></TextBlock>
-                                    <StackPanel Grid.Row="1" >
-                                        <StackPanel  Orientation="Horizontal" VerticalAlignment="Top" >
-                                            <TextBlock  Width="40" Height="20" Margin="4" HorizontalAlignment="Left" Text="Name" ></TextBlock>
-                                            <TextBox Width="90" Height="25" Text="{Binding name}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+                            <Grid Height="160" Width="250" >
+                                <Border Margin="6" BorderThickness="3.5" CornerRadius="5,45,4,45"  BorderBrush="#FF8C829B" Background="White" >
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="25"/>
+                                            <RowDefinition Height="83"/>
+                                            <RowDefinition Height="*"/>
+                                        </Grid.RowDefinitions>
+                                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Top" Foreground="#FF3B4583" FontWeight="Bold" FontSize="18" Text="{Binding type.Name}" ></TextBlock>
+                                        <StackPanel Grid.Row="1" >
+                                            <StackPanel  Orientation="Horizontal" VerticalAlignment="Top" >
+                                                <TextBlock  Width="40" Height="20" Margin="4" HorizontalAlignment="Left" Text="Name" ></TextBlock>
+                                                <TextBox Width="90" Height="25" Text="{Binding Name}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+                                            </StackPanel>
+                                            <StackPanel  Orientation="Horizontal" VerticalAlignment="Top" >
+                                                <TextBlock  Width="40" Height="20" Margin="4" HorizontalAlignment="Left" Text="Price" ></TextBlock>
+                                                <TextBox Width="90" Height="25" Text="{Binding Name}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+                                            </StackPanel>
+                                            <StackPanel  Orientation="Horizontal" VerticalAlignment="Top" Height="25">
+                                                <TextBlock  Width="40" Height="20" Margin="4" HorizontalAlignment="Left" Text="DateIn" ></TextBlock>
+                                                <TextBox Width="90" Height="25" Text="{Binding Name}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+                                            </StackPanel>
                                         </StackPanel>
-                                        <StackPanel  Orientation="Horizontal" VerticalAlignment="Top" >
-                                            <TextBlock  Width="40" Height="20" Margin="4" HorizontalAlignment="Left" Text="Price" ></TextBlock>
-                                            <TextBox Width="90" Height="25" Text="{Binding Name}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
-                                        </StackPanel>
-                                        <StackPanel  Orientation="Horizontal" VerticalAlignment="Top" Height="25">
-                                            <TextBlock  Width="40" Height="20" Margin="4" HorizontalAlignment="Left" Text="DateIn" ></TextBlock>
-                                            <TextBox Width="90" Height="25" Text="{Binding Name}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
-                                        </StackPanel>
-                                    </StackPanel>
-                                    <StackPanel Grid.Row="2" HorizontalAlignment="Right" VerticalAlignment="Bottom" Orientation="Horizontal" >
+                                        <StackPanel Grid.Row="2" HorizontalAlignment="Right" VerticalAlignment="Bottom" Orientation="Horizontal" >
 
-                                        <!--<Button  Command="{Binding CommandaFilter}" Background="#FF3B4583" HorizontalAlignment="Right" Width="30" Height="30" VerticalAlignment="Bottom" Margin="2"  Style="{StaticResource MaterialDesignFloatingActionDarkButton}" ToolTip="MaterialDesignFloatingActionDarkButton">
+                                            <!--<Button  Command="{Binding CommandaFilter}" Background="#FF3B4583" HorizontalAlignment="Right" Width="30" Height="30" VerticalAlignment="Bottom" Margin="2"  Style="{StaticResource MaterialDesignFloatingActionDarkButton}" ToolTip="MaterialDesignFloatingActionDarkButton">
                                             <materialDesign:PackIcon Kind="Update" />
                                         </Button>
                                         <Button  Background="#FF3B4583" Command="{Binding CommandaFilter}" HorizontalAlignment="Right" Width="30" Height="30" VerticalAlignment="Bottom" Margin="2" Style="{StaticResource MaterialDesignFloatingActionDarkButton}" ToolTip="">
                                             <materialDesign:PackIcon Kind="DeleteForever" />
                                         </Button>-->
-                                        <Button CommandParameter="{Binding Id}" Command="{Binding DataContext.CommandUpdate,RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" Background="#FF3B4583" HorizontalAlignment="Right" Width="25" Height="25" VerticalAlignment="Bottom" Margin="3">
-                                            <materialDesign:PackIcon Foreground="White" Width="20" Margin="-13,-1" Height="18" Kind="Update" />
-                                        </Button>
-                                        <Button CommandParameter="{Binding Id}" Command="{Binding DataContext.CommandDelete,RelativeSource={RelativeSource  AncestorType={x:Type ItemsControl}}}" Background="#FF3B4583" HorizontalAlignment="Right" Width="25" Height="25" VerticalAlignment="Bottom" Margin="3">
-                                            <materialDesign:PackIcon Foreground="White" Width="20" Margin="-13,-1" Height="18" Kind=" DeleteForever" />
-                                        </Button>
-                                    </StackPanel>
-                                </Grid>
-                            </Border>
+                                            <Button CommandParameter="{Binding Id}" Command="{Binding DataContext.CommandUpdate,RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" Background="#FF3B4583" HorizontalAlignment="Right" Width="25" Height="25" VerticalAlignment="Bottom" Margin="3">
+                                                <materialDesign:PackIcon Foreground="White" Width="20" Margin="-13,-1" Height="18" Kind="Update" />
+                                            </Button>
+                                            <Button CommandParameter="{Binding Id}" Command="{Binding DataContext.CommandDelete,RelativeSource={RelativeSource  AncestorType={x:Type ItemsControl}}}" Background="#FF3B4583" HorizontalAlignment="Right" Width="25" Height="25" VerticalAlignment="Bottom" Margin="3">
+                                                <materialDesign:PackIcon Foreground="White" Width="20" Margin="-13,-1" Height="18" Kind=" DeleteForever" />
+                                            </Button>
+                                        </StackPanel>
+                                    </Grid>
+                                </Border>
 
-                        </Grid>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </Grid>
+            <Grid  Grid.Row="2">
+                <Button Background="#FF3B4583" Margin="5" Command="{Binding CommandOpenAdd}"  Name="AddBtn" Width="135" Height="50" HorizontalAlignment="Center">
+                    <TextBlock Text="Add New Type" Foreground="Beige" ></TextBlock>
+                </Button>
+            </Grid>
         </Grid>
-        <Grid  Grid.Row="2">
-            <Button Background="#FF3B4583" Margin="5" Click="AddTBtn_Click"  Name="AddBtn" Width="135" Height="50" HorizontalAlignment="Center">
-                <TextBlock Text="Add New Type" Foreground="Beige" ></TextBlock>
-            </Button>
 
-        </Grid>
-    </Grid>
+    </materialDesign:DialogHost>
+
 </Window>
