@@ -15,19 +15,13 @@ using System.Windows.Shapes;
 namespace WpfApp1.View
 {
     /// <summary>
-    /// Interaction logic for Windowtype.xaml
+    /// Interaction logic for WindowMat.xaml
     /// </summary>
-    public partial class Windowtype : Window
+    public partial class WindowMat : Window
     {
-        public Windowtype()
+        public WindowMat()
         {
             InitializeComponent();
-        }
-
-        private void AddBtn_Click(object sender, RoutedEventArgs e)
-        {
-            WindowMat WM = new WindowMat();
-            WM.ShowDialog();
         }
     }
 }

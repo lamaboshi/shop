@@ -5,8 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1.View"
         xmlns:ViewModels="clr-namespace:WpfApp1.ViewModel"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
-        Title="Windowmatira" Height="450" Width="800">
+        Title="Windowmatira" Height="450" Width="700" WindowState="Maximized">
     <Window.DataContext>
         <ViewModels:MateriaViewModel/>
     </Window.DataContext>
@@ -17,199 +18,85 @@
             <RowDefinition Height="55"/>
 
         </Grid.RowDefinitions>
-        <Grid>
-            <WrapPanel Grid.Row="0" Background="#FF416F9B">
-                <TextBlock  Margin="10" FontSize="20" Name="mattxt" Text="MaterialName"></TextBlock>
-                <!--<CheckBox Style="{StaticResource MaterialDesignCheckBox}" Command="{Binding CommandAddToChake}"  >-->
-
-                <!--</CheckBox>-->
-
+        <Grid Grid.Row="0" Background="#FFCDCBCB">
+            <DockPanel >
+                <Button Background="#FF3B4583" DockPanel.Dock="Left" Width="100" Command="{Binding CommandAddToChake}" >
+                    <TextBlock Text="Fliter" Foreground="Beige"></TextBlock>
+                </Button>
                 <ItemsControl ItemsSource="{Binding ListItemOfType,UpdateSourceTrigger=PropertyChanged,NotifyOnSourceUpdated=True,NotifyOnTargetUpdated=True}" >
-
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
-                            <StackPanel Orientation="Horizontal"/>
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" />
                         </ItemsPanelTemplate>
                     </ItemsControl.ItemsPanel>
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                       
-                            <CheckBox  Margin="8" Content="{Binding Name}"></CheckBox>
-                            
+                            <CheckBox Content="{Binding Name}" IsChecked="{Binding IsChecked,UpdateSourceTrigger=PropertyChanged,NotifyOnSourceUpdated=True,NotifyOnTargetUpdated=True}" Margin="8" ></CheckBox>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
-
-
                 </ItemsControl>
-            </WrapPanel>
-
+            </DockPanel>
         </Grid>
         <Grid Grid.Row="1">
+            <ItemsControl ItemsSource="{Binding CollecMaterail,UpdateSourceTrigger=PropertyChanged,NotifyOnSourceUpdated=True,NotifyOnTargetUpdated=True}" >
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Height="160" Width="250" >
+                            <Border Margin="6" BorderThickness="3.5" CornerRadius="5,45,4,45"  BorderBrush="#FF8C829B" Background="White" >
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="25"/>
+                                        <RowDefinition Height="83"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+                                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Top" Foreground="#FF3B4583" FontWeight="Bold" FontSize="18" Text="{Binding type.Name}" ></TextBlock>
+                                    <StackPanel Grid.Row="1" >
+                                        <StackPanel  Orientation="Horizontal" VerticalAlignment="Top" >
+                                            <TextBlock  Width="40" Height="20" Margin="4" HorizontalAlignment="Left" Text="Name" ></TextBlock>
+                                            <TextBox Width="90" Height="25" Text="{Binding name}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+                                        </StackPanel>
+                                        <StackPanel  Orientation="Horizontal" VerticalAlignment="Top" >
+                                            <TextBlock  Width="40" Height="20" Margin="4" HorizontalAlignment="Left" Text="Price" ></TextBlock>
+                                            <TextBox Width="90" Height="25" Text="{Binding Name}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+                                        </StackPanel>
+                                        <StackPanel  Orientation="Horizontal" VerticalAlignment="Top" Height="25">
+                                            <TextBlock  Width="40" Height="20" Margin="4" HorizontalAlignment="Left" Text="DateIn" ></TextBlock>
+                                            <TextBox Width="90" Height="25" Text="{Binding Name}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+                                        </StackPanel>
+                                    </StackPanel>
+                                    <StackPanel Grid.Row="2" HorizontalAlignment="Right" VerticalAlignment="Bottom" Orientation="Horizontal" >
 
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="102"/>
-                    <RowDefinition Height="98"/>
-                    <RowDefinition Height="100"/>
-                </Grid.RowDefinitions>
-            </Grid>
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="160"/>
-                    <ColumnDefinition Width="160"/>
-                    <ColumnDefinition Width="160"/>
-                    <ColumnDefinition Width="160"/>
-                    <ColumnDefinition Width="160"/>
-                </Grid.ColumnDefinitions>
-                <Grid Background="Beige" Grid.Column="0" >
-                    <ItemsControl ItemsSource="{Binding ListItemOfType,UpdateSourceTrigger=PropertyChanged,NotifyOnSourceUpdated=True,NotifyOnTargetUpdated=True}" >
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <StackPanel Orientation="Vertical"/>
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Grid Height="150">
-                                    <StackPanel>
-                                        <TextBlock FontSize="20" Text="b" FontWeight="Bold" ></TextBlock>
-                                        <TextBlock Margin="8" FontSize="10" Text="la" ></TextBlock>
-                                        <TextBlock Margin="8" FontSize="10" Text="la" ></TextBlock>
-                                        <TextBlock Margin="8" FontSize="10" Text="la" />
-                                        <Button  Click="GoToBill" HorizontalAlignment="Right" Background="#FF3B4583" >
-                                            <TextBlock Text="$" FontSize="20"/>
+                                        <!--<Button  Command="{Binding CommandaFilter}" Background="#FF3B4583" HorizontalAlignment="Right" Width="30" Height="30" VerticalAlignment="Bottom" Margin="2"  Style="{StaticResource MaterialDesignFloatingActionDarkButton}" ToolTip="MaterialDesignFloatingActionDarkButton">
+                                            <materialDesign:PackIcon Kind="Update" />
+                                        </Button>
+                                        <Button  Background="#FF3B4583" Command="{Binding CommandaFilter}" HorizontalAlignment="Right" Width="30" Height="30" VerticalAlignment="Bottom" Margin="2" Style="{StaticResource MaterialDesignFloatingActionDarkButton}" ToolTip="">
+                                            <materialDesign:PackIcon Kind="DeleteForever" />
+                                        </Button>-->
+                                        <Button CommandParameter="{Binding Id}" Command="{Binding DataContext.CommandUpdate,RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" Background="#FF3B4583" HorizontalAlignment="Right" Width="25" Height="25" VerticalAlignment="Bottom" Margin="3">
+                                            <materialDesign:PackIcon Foreground="White" Width="20" Margin="-13,-1" Height="18" Kind="Update" />
+                                        </Button>
+                                        <Button CommandParameter="{Binding Id}" Command="{Binding DataContext.CommandDelete,RelativeSource={RelativeSource  AncestorType={x:Type ItemsControl}}}" Background="#FF3B4583" HorizontalAlignment="Right" Width="25" Height="25" VerticalAlignment="Bottom" Margin="3">
+                                            <materialDesign:PackIcon Foreground="White" Width="20" Margin="-13,-1" Height="18" Kind=" DeleteForever" />
                                         </Button>
                                     </StackPanel>
                                 </Grid>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </Grid>
-                <Grid Background="Beige" Grid.Column="1" >
-                    <ItemsControl ItemsSource="{Binding ListItemOfType,UpdateSourceTrigger=PropertyChanged,NotifyOnSourceUpdated=True,NotifyOnTargetUpdated=True}" >
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <StackPanel Orientation="Vertical"/>
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
+                            </Border>
 
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate> 
-                                <Grid Height="150">
-                                    <StackPanel>
-                                        <TextBlock FontSize="20" Name="NameType" Text="{Binding Name }" FontWeight="Bold" ></TextBlock>
-                                        <ItemsControl ItemsSource="{Binding CollecMaterail,UpdateSourceTrigger=PropertyChanged,NotifyOnSourceUpdated=True,NotifyOnTargetUpdated=True}">
-                                            <TextBlock Margin="8" Name="NameMaterial" FontSize="10" Text="{Binding Name}" ></TextBlock>
-                                        </ItemsControl>
-                                        <ItemsControl ItemsSource="{Binding ListStore,UpdateSourceTrigger=PropertyChanged,NotifyOnSourceUpdated=True,NotifyOnTargetUpdated=True}">
-                                            <TextBlock Margin="8" Name="Price" FontSize="10" Text="{Binding Name }" ></TextBlock>
-                                        <TextBlock Margin="8" Name="NameStor" FontSize="10" Text="{Binding Name}" />
-                                        </ItemsControl>
-                                        <Button  Click="GoToBill" HorizontalAlignment="Right" Background="#FF3B4583" >
-                                            <TextBlock Text="$" FontSize="20"/>
-                                        </Button>
-                                    </StackPanel>
-                                </Grid>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-
-
-                    </ItemsControl>
-
-                </Grid>
-                <Grid Background="Beige" Grid.Column="2" >
-                    <ItemsControl ItemsSource="{Binding ListItemOfType,UpdateSourceTrigger=PropertyChanged,NotifyOnSourceUpdated=True,NotifyOnTargetUpdated=True}" >
-
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <StackPanel Orientation="Vertical"/>
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Grid Height="150">
-                                    <StackPanel>
-                                        <TextBlock FontSize="20" Text="b" FontWeight="Bold" ></TextBlock>
-                                        <TextBlock Margin="8" FontSize="10" Text="la" ></TextBlock>
-                                        <TextBlock Margin="8" FontSize="10" Text="la" ></TextBlock>
-                                        <TextBlock Margin="8" FontSize="10" Text="la" />
-                                        <Button  Click="GoToBill" HorizontalAlignment="Right" Background="#FF3B4583" >
-                                            <TextBlock Text="$" FontSize="20"/>
-                                        </Button>
-                                    </StackPanel>
-                                </Grid>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-
-
-                    </ItemsControl>
-
-                </Grid>
-                <Grid  Background="Beige" Grid.Column="3" >
-                    <ItemsControl ItemsSource="{Binding ListItemOfType,UpdateSourceTrigger=PropertyChanged,NotifyOnSourceUpdated=True,NotifyOnTargetUpdated=True}" >
-
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <StackPanel Orientation="Vertical"/>
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Grid Height="150">
-                                    <StackPanel>
-                                        <TextBlock FontSize="20" Text="b" FontWeight="Bold" ></TextBlock>
-                                        <TextBlock Margin="8" FontSize="10" Text="la" ></TextBlock>
-                                        <TextBlock Margin="8" FontSize="10" Text="la" ></TextBlock>
-                                        <TextBlock Margin="8" FontSize="10" Text="la" />
-                                        <Button  Click="GoToBill" HorizontalAlignment="Right" Background="#FF3B4583" >
-                                            <TextBlock Text="$" FontSize="20"/>
-                                        </Button>
-                                    </StackPanel>
-                                </Grid>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-
-
-                    </ItemsControl>
-
-                </Grid>
-                <Grid Background="Beige" Grid.Column="4" >
-                    <ItemsControl ItemsSource="{Binding ListItemOfType,UpdateSourceTrigger=PropertyChanged,NotifyOnSourceUpdated=True,NotifyOnTargetUpdated=True}" >
-
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <StackPanel Orientation="Vertical"/>
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Grid Height="150">
-                                    <StackPanel>
-                                        <TextBlock FontSize="20" Text="b" FontWeight="Bold" ></TextBlock>
-                                        <TextBlock Margin="8" FontSize="10" Text="la" ></TextBlock>
-                                        <TextBlock Margin="8" FontSize="10" Text="la" ></TextBlock>
-                                        <TextBlock Margin="8" FontSize="10" Text="la" />
-                                        <Button  Click="GoToBill" HorizontalAlignment="Right" Background="#FF3B4583" >
-                                            <TextBlock Text="$" FontSize="20"/>
-                                        </Button>
-                                    </StackPanel>
-                                </Grid>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </Grid>
-            </Grid>
-        </Grid >
-        <Grid Background="#FFB8B8B8" Grid.Row="2">
-            <Button Margin="10,5,0,0" Click="AddTBtn_Click" Background="#FF3B4583" Name="AddBtn" Width="135" Height="50" HorizontalAlignment="Left">
-                <TextBlock Text="Add New Type" Foreground="White" ></TextBlock>
+                        </Grid>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </Grid>
+        <Grid  Grid.Row="2">
+            <Button Background="#FF3B4583" Margin="5" Click="AddTBtn_Click"  Name="AddBtn" Width="135" Height="50" HorizontalAlignment="Center">
+                <TextBlock Text="Add New Type" Foreground="Beige" ></TextBlock>
             </Button>
-            <Button Margin="10,5,0,0" Click="AddMat_Click" Background="#FF3B4583" Name="AddMat" Width="135" Height="50" HorizontalAlignment="Left">
-                <TextBlock Text="Add New Type" Foreground="White" ></TextBlock>
-            </Button>
+
         </Grid>
     </Grid>
 </Window>

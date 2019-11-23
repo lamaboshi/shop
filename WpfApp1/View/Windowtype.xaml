@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1.View"
         xmlns:ViewModels="clr-namespace:WpfApp1.ViewModel"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
         Title="Windowtype" Height="450" Width="800">
     <Window.DataContext>
@@ -12,57 +13,59 @@
     </Window.DataContext>
     <Grid>
         <Grid>
-
             <Grid.RowDefinitions>
-                <RowDefinition Height="60"/>
-                <RowDefinition Height="*" />
-                <RowDefinition Height="60"/>
+                <RowDefinition Height="55"/>
+                <RowDefinition Height="150" />
+                <RowDefinition Height="150" />
+                <RowDefinition Height="55"/>
 
             </Grid.RowDefinitions>
-
-            <Grid Grid.Row="0" Background="#FF416F9B">
-                <TextBlock HorizontalAlignment="Center" FontSize="30" Foreground="White" FontWeight="Bold" Text="Material Page" ></TextBlock>
+            <Grid Grid.Row="0" Background="#FFCDCBCB">
+                <Button Margin="3" HorizontalAlignment="Left"  Background="#FF3B4583" Height="45" Width="45" Style="{StaticResource MaterialDesignFloatingActionDarkButton}">
+                    <materialDesign:PackIcon  Kind="Backburger" Height="40"  />
+                </Button>
+                <TextBlock FontWeight="Bold" FontSize="25" Foreground="#FF3B4583" VerticalAlignment="Center" HorizontalAlignment="Center" >fdf</TextBlock>
             </Grid>
             <Grid Grid.Row="1">
                 <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="400"/>
-                        <ColumnDefinition Width="390"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-          
-                
-                <Grid Grid.Column="0">
-                <ItemsControl ItemsSource="{Binding ListItemOfType,UpdateSourceTrigger=PropertyChanged,NotifyOnSourceUpdated=True,NotifyOnTargetUpdated=True}" >
+                    <StackPanel>
+                        <TextBlock Text="Materail Name :" FontSize="15"  Foreground="Black"  Margin="2" />
+                        <TextBox Text="{Binding namein}" Name="namein"  Width="200" HorizontalAlignment="Left" Background="White" Margin="2"/>
+                        <TextBlock Text="Type Name :" FontSize="15"  Foreground="Black"  Margin="2" />
+                        <TextBox Text="{Binding nameTypein}" Name="nameTypein" Width="200" HorizontalAlignment="Left" Background="White" Margin="2"/>
+                        <Button Command="{Binding CommandAdd}" HorizontalAlignment="Right" Margin="4"  Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}">
+                            <materialDesign:PackIcon Kind="ContentSave" Width="30" Height="30" />
+                        </Button>
 
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <StackPanel Orientation="Horizontal"/>
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <ListBox>
-                                <TextBlock  >dd</TextBlock>
-                            </ListBox>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-
-
-                </ItemsControl>
-                </Grid>
-                <Grid Grid.Column="1">
-                    <StackPanel Grid.Column="1">
-                        <TextBlock Text="Name :" FontSize="15"  Foreground="Black"  Margin="5" />
-                        <TextBox Height="16" Width="200" HorizontalAlignment="Left" Background="White" Margin="5,5,0,5"/>
                     </StackPanel>
                 </Grid>
-                </Grid >
             </Grid>
-            <Grid Background="#FFB8B8B8" Grid.Row="2">
-                <Button Click="AddBtn_Click" Margin="10" Background="#FF3B4583" Name="AddBtn" Width="150" Height="50" HorizontalAlignment="Left">
-                    <TextBlock Text="Add New Type" Foreground="White" ></TextBlock>
+            <Grid Grid.Row="2">
+                <Grid >
+                    <ItemsControl ItemsSource="{Binding CollecMaterail,UpdateSourceTrigger=PropertyChanged,NotifyOnSourceUpdated=True,NotifyOnTargetUpdated=True}" >
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                             <StackPanel Orientation="Horizontal"/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Border BorderThickness="4" Margin="5" CornerRadius="2,30,45,45" BorderBrush="#FF8C829B">
+                                    <StackPanel >
+                                        <TextBlock Margin="25" Text="{Binding Name}" FontSize="14"></TextBlock>
+                                        <TextBlock Margin="25" Text="{Binding TypeId}" FontSize="14" ></TextBlock>
+                                    </StackPanel>
+                                    </Border>
+                                </Grid>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </Grid>
+            </Grid>
+            <Grid Grid.Row="3">
+                <Button Click="AddBtn_Click" Margin="5" Background="#FF3B4583" Name="AddBtn" Width="150" Height="50" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <TextBlock Text="Add New Material" Foreground="White" ></TextBlock>
                 </Button>
             </Grid>
         </Grid>

@@ -71,13 +71,22 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Migrations\201911222007417_FirstOne.cs" />
+    <Compile Include="Migrations\201911222007417_FirstOne.designer.cs">
+      <DependentUpon>201911222007417_FirstOne.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Util\Command\Command.cs" />
     <Compile Include="Util\Command\CommandT.cs" />
     <Compile Include="Util\Command\WeakEventManager.cs" />
+    <Compile Include="Util\Extension Method\ExtensionMethod.cs" />
     <Compile Include="ViewModel\BaseViewModel.cs" />
     <Compile Include="ViewModel\MateriaViewModel.cs" />
     <Compile Include="View\WindowBill.xaml.cs">
       <DependentUpon>WindowBill.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\WindowMat.xaml.cs">
+      <DependentUpon>WindowMat.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Windowmatira.xaml.cs">
       <DependentUpon>Windowmatira.xaml</DependentUpon>
@@ -98,6 +107,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="View\WindowBill.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\WindowMat.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -132,6 +145,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <EmbeddedResource Include="Migrations\201911222007417_FirstOne.resx">
+      <DependentUpon>201911222007417_FirstOne.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

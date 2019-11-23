@@ -9,6 +9,6 @@ namespace WpfApp1.Model
    public class BaseModel
     {
         public int Id { get; set; }
-        public int Isdelete { get; set; }
+        public bool Isdelete { get; set; }
     }
 }
