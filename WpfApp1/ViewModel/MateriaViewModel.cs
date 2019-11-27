@@ -9,6 +9,7 @@ using System.Windows.Input;
 using WpfApp1.Model;
 using WpfApp1.Util.Command;
 using WpfApp1.Util.Extension_Method;
+using WpfApp1.View;
 
 namespace WpfApp1.ViewModel
 {
@@ -75,9 +76,6 @@ namespace WpfApp1.ViewModel
             }); }
             set { _CommandAddToChake = value; }
         }
-
-        
-
         private ICommand _CommandDelete;
         public ICommand CommandDelete
         {
@@ -107,8 +105,6 @@ namespace WpfApp1.ViewModel
             set { _CommandDelete = value; }
         }
 
-
-
         private ICommand _CommandUpdate;
         public ICommand CommandUpdate
         {
@@ -123,9 +119,9 @@ namespace WpfApp1.ViewModel
                               var s = _CollecMaterail.Single(m => m.Id == IdUpdate);
                               Materail IdS = Context.Materails.Single(M => M.Id == IdUpdate);
                               IdS.Name = s.Name;
-                             // IdS.type.Name = _nameType;
+                              IdS.Price = s.Price;
                               Context.SaveChanges();
-                              
+                              MessageBox.Show("Done");
                               return;
                           
                           }
@@ -142,16 +138,43 @@ namespace WpfApp1.ViewModel
 
                 return _CommandAdd = new Command(() =>
                  {
-                     _CollecMaterail.Add(new Materail() { Name = namein, Isdelete = false });
-                     _ListItemOfType.Add(new CheckedBoxType() {Name=nameTypein });
-                     Add(_CollecMaterail);
-                 });
-
-            }
+                     Materail s = new Materail();
+                     s.Name = _NameMaterial;
+                     s.Price = _price;
+                     s.Isdelete = false;
+                     var selecttype = (from type in _ListItemOfType where type.Name == _nameType select type.Id).First(); ;
+                     s.TypeId =selecttype;
+                     Context.Materails.Add(s);
+                     Context.SaveChanges();
+                     MessageBox.Show("Done");
+                     FillMaterial();
+                     _IsOpenAdd = false;
+                     OnPropertyChanged(nameof(IsOpenAdd));
+                 }); }
             set { _CommandAdd = value; }
         }
+        private ICommand _CommandAddType;
+        public ICommand CommandAddType
+        {
+            get
+            {
+                return _CommandAddType = new Command(() =>
+               {
+                   var s = Context.Types.First();
+                   s.Name = _NameType;
+                   Context.Types.Add(s);
+                   //var m = Context.Types.Select(t=>t.Id).Max();
+                   _ListItemOfType.Add(new CheckedBoxType() {Name=s.Name,IsChecked=true});
+
+                   FillListItemToType();
+                   Context.SaveChanges();
+                   OnPropertyChanged(nameof(ListItemOfType));
 
 
+               });
+            }
+            set { _CommandAddType = value; }
+        }
 
         private ICommand _CommandOpenAdd;
         public ICommand CommandOpenAdd
@@ -163,7 +186,57 @@ namespace WpfApp1.ViewModel
             }); }
             set { _CommandOpenAdd = value; }
         }
+        private ICommand _CommandCloseAdd;
+        public ICommand CommandCloseAdd
+        {
+            get
+            {
+                return _CommandCloseAdd = new Command(() =>
+                {
+                    _IsOpenAdd = false;
+                    OnPropertyChanged(nameof(IsOpenAdd));
+                });
+            }
+            set { _CommandCloseAdd = value; }
+        }
+        private ICommand _CommandGoType;
+        public ICommand CommandGoType
+        {
+            get
+            {
+                return _CommandGoType = new Command(() =>
+                {
+                    _IsOpenAdd = false;
+                    OnPropertyChanged(nameof(IsOpenAdd));
+                    Windowtype WM = new Windowtype();
+    
+                    WM.Show();
 
+                });
+            }
+            set { _CommandGoType = value; }
+        }
+        private ICommand _Commandplusb;
+        public ICommand Commandplusb
+        {
+            get
+            {
+                return _Commandplusb = new CommandT<int>(buy =>
+                {
+                    List<Model.Materail> mymaterails = new List<Model.Materail>();
+                    var s = _CollecMaterail.Single(m => m.Id == buy);
+                    mymaterails.Add(s);
+
+                   
+                    //Materail IdS = Context.Materails.Single(M => M.Id == buy);
+
+                    _itembuy += 1;
+                    MessageBox.Show(buy.ToString());
+                    OnPropertyChanged(nameof(itembuy));
+                });
+            }
+            set { _Commandplusb = value; }
+        }
 
         #endregion
 
@@ -195,6 +268,7 @@ namespace WpfApp1.ViewModel
         }
         private void FillMaterial()
         {
+   
             _CollecMaterail = Context.Materails.
                 Include(nameof(Model.Type)).
                 Where(m => !m.Isdelete).
@@ -204,11 +278,7 @@ namespace WpfApp1.ViewModel
 
             C_Materail = _CollecMaterail.ToObservableCollection();
         }
-        private void Add(ObservableCollection<Model.Materail> add)
-        {
 
-           // Context.Materails.FirstOrDefault(_CollecMaterail);
-        }
 
 
         #endregion
@@ -300,13 +370,6 @@ namespace WpfApp1.ViewModel
             get { return _namein; }
             set { _namein = value; }
         }
-        private string _nameTypein;
-        public string nameTypein
-        {
-            get { return _nameTypein; }
-            set { _nameTypein = value; }
-        }
-
 
         private string _NameMaterial;
         public string NameMaterial
@@ -315,6 +378,12 @@ namespace WpfApp1.ViewModel
             set { _NameMaterial = value; }
         }
 
+        private string _NameType;
+        public string NameType
+        {
+            get { return _NameType; }
+            set { _NameType = value; }
+        }
 
         #endregion
 
@@ -326,7 +395,19 @@ namespace WpfApp1.ViewModel
         #endregion
 
         #region -   Number  -
+        private double _price;
+        public double price
+        {
+            get { return _price; }
+            set { _price = value; }
+        }
 
+        private double _itembuy;
+        public double itembuy
+        {
+            get { return _itembuy; }
+            set { _itembuy = value; }
+        }
 
         #endregion
 
