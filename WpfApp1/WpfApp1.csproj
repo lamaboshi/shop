@@ -79,12 +79,21 @@
     <Compile Include="Migrations\201911242127055_sec.designer.cs">
       <DependentUpon>201911242127055_sec.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201911271320189_newone5.cs" />
+    <Compile Include="Migrations\201911271320189_newone5.designer.cs">
+      <DependentUpon>201911271320189_newone5.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201911281027455_new.cs" />
+    <Compile Include="Migrations\201911281027455_new.designer.cs">
+      <DependentUpon>201911281027455_new.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Util\Command\Command.cs" />
     <Compile Include="Util\Command\CommandT.cs" />
     <Compile Include="Util\Command\WeakEventManager.cs" />
     <Compile Include="Util\Extension Method\ExtensionMethod.cs" />
     <Compile Include="ViewModel\BaseViewModel.cs" />
+    <Compile Include="ViewModel\BillViewModel.cs" />
     <Compile Include="ViewModel\MateriaViewModel.cs" />
     <Compile Include="View\AddMaterialUserControl.xaml.cs">
       <DependentUpon>AddMaterialUserControl.xaml</DependentUpon>
@@ -92,8 +101,8 @@
     <Compile Include="View\WindowBill.xaml.cs">
       <DependentUpon>WindowBill.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\WindowMat.xaml.cs">
-      <DependentUpon>WindowMat.xaml</DependentUpon>
+    <Compile Include="View\WindowViewBill.xaml.cs">
+      <DependentUpon>WindowViewBill.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Windowmatira.xaml.cs">
       <DependentUpon>Windowmatira.xaml</DependentUpon>
@@ -121,7 +130,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\WindowMat.xaml">
+    <Page Include="View\WindowViewBill.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -137,11 +146,10 @@
   <ItemGroup>
     <Compile Include="Model\BaseModel.cs" />
     <Compile Include="Model\Bill.cs" />
-    <Compile Include="Model\BillStore.cs" />
+    <Compile Include="Model\BillMaterail.cs" />
     <Compile Include="Model\ContactContext.cs" />
     <Compile Include="Model\Materail.cs" />
     <Compile Include="Model\SeeData.cs" />
-    <Compile Include="Model\Store.cs" />
     <Compile Include="Model\Type.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -161,6 +169,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201911242127055_sec.resx">
       <DependentUpon>201911242127055_sec.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201911271320189_newone5.resx">
+      <DependentUpon>201911271320189_newone5.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201911281027455_new.resx">
+      <DependentUpon>201911281027455_new.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

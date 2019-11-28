@@ -10,7 +10,8 @@ namespace WpfApp1.Model
     {
         public int Number { get; set; }
         public string Name { get; set; }
+        public double Totile { get; set; }
         public DateTime DateOut { get; set; }
-        public ICollection<BillStore> BillStores { get; set; }
+        public ICollection<BillMaterail> billMaterails { get; set; }
     }
 }

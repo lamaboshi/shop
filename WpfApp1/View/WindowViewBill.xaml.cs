@@ -17,9 +17,9 @@ namespace WpfApp1.View
     /// <summary>
     /// Interaction logic for WindowMat.xaml
     /// </summary>
-    public partial class WindowMat : Window
+    public partial class WindowViewBill : Window
     {
-        public WindowMat()
+        public WindowViewBill()
         {
             InitializeComponent();
         }

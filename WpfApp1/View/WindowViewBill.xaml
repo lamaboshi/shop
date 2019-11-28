@@ -1,0 +1,67 @@
+﻿<Window x:Class="WpfApp1.View.WindowViewBill"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp1.View"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:ViewModels="clr-namespace:WpfApp1.ViewModel"
+        mc:Ignorable="d"
+        Title="WindowViewBill" Height="450" Width="800">
+    <Window.DataContext>
+        <ViewModels:MateriaViewModel/>
+    </Window.DataContext>
+    <Grid>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="63"/>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="55"/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0" Background="#FFCDCBCB">
+                <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5" FontSize="30"  Foreground="#FF3B4583" FontWeight="Bold" Text="All Bill" ></TextBlock>
+                <StackPanel HorizontalAlignment="Right" Width="300">
+                    <TextBlock FontSize="16" Margin="3" Text="Search Name Bill "/>
+                    <TextBox Text="{Binding NameBill}" HorizontalAlignment="Left" Width="250" Height="32"/>
+                </StackPanel>
+                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5" FontSize="30"  Foreground="#FF3B4583" FontWeight="Bold" Text="{Binding CountBill}" />
+            </Grid>
+            <Grid Grid.Row="1">
+                <DataGrid Margin="2" Background= "White" AutoGenerateColumns="False" ItemsSource="{Binding ListBillMaterail}">
+                    <DataGrid.Columns >
+                        <DataGridTextColumn Header="Number Bill" Binding="{Binding Bill.Number}" />
+                        <DataGridTextColumn Header="Name Type" Binding="{Binding materail.type.Name}" />
+                        <DataGridTextColumn  Header="Name Bill" Binding="{Binding Bill.Name}" />
+                        <DataGridTextColumn  Header="Name Materail" Binding="{Binding materail.Name}" />
+                        <DataGridTextColumn Header="Price Materail" Binding="{Binding materail.Price}" />
+                        <DataGridTextColumn  Header="Date Out" Binding="{Binding Bill.DateOut}" />
+                        <DataGridTextColumn  Header="Totile Price" Binding="{Binding Bill.Totile}" />
+
+                        <!--<DataGridTextColumn Header="BillId" Binding="{Binding BillId}" />-->
+                        <DataGridTemplateColumn >
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button >
+                                        <materialDesign:PackIcon Kind="Show" />
+                                    </Button>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn >
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button CommandParameter="{Binding Id}" Command="{Binding DataContext.CommandDeleteBill,RelativeSource={RelativeSource  AncestorType={x:Type DataGrid}}}" >
+                                        <materialDesign:PackIcon Kind="DeleteVariant" />
+                                    </Button>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+
+                </DataGrid>
+            </Grid>
+            <Grid Grid.Row="2">
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>

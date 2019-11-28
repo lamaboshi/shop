@@ -29,7 +29,7 @@
                 <DockPanel >
                     <Button Background="#FF3B4583" DockPanel.Dock="Left" Width="100" Command="{Binding CommandAddToChake}" >
                         <TextBlock Text="Fliter" Foreground="Beige"></TextBlock>
-         
+
                     </Button>
 
                     <ItemsControl ItemsSource="{Binding ListItemOfType,UpdateSourceTrigger=PropertyChanged,NotifyOnSourceUpdated=True,NotifyOnTargetUpdated=True}" >
@@ -53,30 +53,25 @@
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
                             <WrapPanel>
-      
+
                             </WrapPanel>
                         </ItemsPanelTemplate>
                     </ItemsControl.ItemsPanel>
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            
                             <Grid Height="160" Width="250" >
-                             
                                 <Border Margin="6" BorderThickness="3.5" CornerRadius="5,45,4,45"  BorderBrush="#FF8C829B" Background="White" >
-                           
-                                        <Grid>
+                                    <Grid>
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="25"/>
                                             <RowDefinition Height="83"/>
                                             <RowDefinition Height="*"/>
                                         </Grid.RowDefinitions>
-                                 
                                         <TextBlock HorizontalAlignment="Center" VerticalAlignment="Top" Foreground="#FF3B4583" FontWeight="Bold" FontSize="18" Text="{Binding type.Name}" ></TextBlock>
                                         <Button  Background="#FF3B4583" CommandParameter="{Binding Id}" Command="{Binding DataContext.Commandplusb,RelativeSource={RelativeSource  AncestorType={x:Type ItemsControl}}}" HorizontalAlignment="Left" Width="20" Height="20" VerticalAlignment="Bottom" Margin="2,1,170,2" Style="{StaticResource MaterialDesignFloatingActionDarkButton}" ToolTip="MaterialDesignFloatingActionDarkButton">
-                                              <materialDesign:PackIcon Kind="TrolleyPlus" Height="13" Width="13"/>
+                                            <materialDesign:PackIcon Kind="TrolleyPlus" Height="13" Width="13"/>
                                         </Button>
                                         <StackPanel Grid.Row="1" >
-                                         
                                             <StackPanel Margin="5"  Orientation="Horizontal" VerticalAlignment="Top" >
                                                 <TextBlock  Width="40" Height="20" Margin="4" HorizontalAlignment="Left" Text="Name" ></TextBlock>
                                                 <TextBox Width="90" Height="25" Text="{Binding Name}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
@@ -94,32 +89,26 @@
                                                 <materialDesign:PackIcon Foreground="White" Width="20" Margin="-13,-1" Height="18" Kind=" DeleteForever" />
                                             </Button>
                                         </StackPanel>
-                                  
                                     </Grid>
-                                
                                 </Border>
-                              
                             </Grid>
-                      
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
-
             </Grid>
             <Grid  Grid.Row="2">
                 <materialDesign:Badged Badge="{Binding itembuy,UpdateSourceTrigger=PropertyChanged}">
-                    <Button Background="#FF3B4583"  Margin="5" Width="44" Height="50">
+                    <Button Command="{Binding CommandToBill,UpdateSourceTrigger=PropertyChanged}" Background="#FF3B4583"  Margin="5" Width="44" Height="50" Click="Button_Click">
                         <materialDesign:PackIcon Kind="Cup" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </Button>
                 </materialDesign:Badged>
-                <Button Background="#FF3B4583" Margin="5" Command="{Binding CommandOpenAdd}"  Name="AddBtn" Width="135" Height="50" HorizontalAlignment="Center">
-                    <TextBlock Text="Add New Type" Foreground="Beige" ></TextBlock>
+                <Button Command="{Binding Commandrest,UpdateSourceTrigger=PropertyChanged}" Background="#FF3B4583" VerticalAlignment="Bottom" HorizontalAlignment="Left"  Margin="65 5 5 5" Width="40" Height="30">
+                    <materialDesign:PackIcon Kind="DeleteRestore"  HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </Button>
-
-                
+                <Button Background="#FF3B4583" Margin="5" Command="{Binding CommandOpenAdd}"  Name="AddBtn" Width="135" Height="50" HorizontalAlignment="Center">
+                    <TextBlock Text="Add New Type" Foreground="Beige" />
+                </Button>
             </Grid>
         </Grid>
-
     </materialDesign:DialogHost>
-
 </Window>

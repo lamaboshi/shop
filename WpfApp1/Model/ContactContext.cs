@@ -15,9 +15,8 @@ namespace WpfApp1.Model
         }
         public DbSet<Type> Types { get; set; }
         public DbSet<Materail> Materails { get; set; }
-        public DbSet<Store> Stores { get; set; }
         public DbSet<Bill> Bills { get; set; }
-        public DbSet<BillStore> BillStores { get; set; }
+        public DbSet<BillMaterail> billMaterails { get; set; }
 
     }
 }

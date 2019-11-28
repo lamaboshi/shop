@@ -26,8 +26,7 @@ namespace WpfApp1.View
 
         private void AddBtn_Click(object sender, RoutedEventArgs e)
         {
-            WindowMat WM = new WindowMat();
-            WM.ShowDialog();
+
         }
     }
 }

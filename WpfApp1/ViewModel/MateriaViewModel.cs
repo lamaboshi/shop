@@ -19,27 +19,23 @@ namespace WpfApp1.ViewModel
 
         private ContactContext Context;
         ObservableCollection<Model.Materail> C_Materail;
+        List<int> IDM=new List<int>();
 
         #region -   Constructor    -
         public MateriaViewModel()
         {
             Context = new ContactContext();
+            _NumbMaterial=1;
 
             _CollecMaterail = new ObservableCollection<Model.Materail>();
-            ////  الي كرمال عبي داتا للmodel
-            //_ListTypeForMy = new ObservableCollection<Model.Type>();
-            //كرمال عبي الداتا من لل class
             _ListItemOfType = new ObservableCollection<CheckedBoxType>();
-
-            //GetAllInfoFromType();
-            //GetAllInfoFromMatrial();
+            _ListBill = new ObservableCollection<Model.Bill>();
             FillListItemToType();
             FillMaterial();
-            //FillStor();
-
+            FillJustMaterail();
+            FillBill();
+            FillBillMaterail();
         }
-
-
         #endregion
 
         #endregion
@@ -52,28 +48,28 @@ namespace WpfApp1.ViewModel
             get {
                 return _CommandAddToChake = new Command(() =>
                 {
-                    
+
                     _CollecMaterail = C_Materail;
-                List<int> IdsType = new List<int>();
-                foreach (var item in ListItemOfType)
-                {
-                    if (item.IsChecked)
-                        IdsType.Add(item.Id);
-                }
-
-
-                ObservableCollection<Model.Materail> NewList = new ObservableCollection<Model.Materail>();
-                foreach (var materail in CollecMaterail)
-                {
-                    if (IdsType.Contains(materail.type.Id))
+                    List<int> IdsType = new List<int>();
+                    foreach (var item in ListItemOfType)
                     {
-                        NewList.Add(materail);
+                        if (item.IsChecked)
+                            IdsType.Add(item.Id);
                     }
-                    _CollecMaterail = NewList;
-                    OnPropertyChanged(nameof(CollecMaterail));
-                }
 
-            }); }
+
+                    ObservableCollection<Model.Materail> NewList = new ObservableCollection<Model.Materail>();
+                    foreach (var materail in CollecMaterail)
+                    {
+                        if (IdsType.Contains(materail.type.Id))
+                        {
+                            NewList.Add(materail);
+                        }
+                        _CollecMaterail = NewList;
+                        OnPropertyChanged(nameof(CollecMaterail));
+                    }
+
+                }); }
             set { _CommandAddToChake = value; }
         }
         private ICommand _CommandDelete;
@@ -82,19 +78,8 @@ namespace WpfApp1.ViewModel
             get {
                 return _CommandDelete = new CommandT<int>(id =>
             {
-                //foreach (var item in CollecMaterail.ToList())
-                //{
-                //    if (item.Id == id)
-                //    {
-                //        _CollecMaterail.Remove(item);
-                //        C_Materail.Remove(item);
-                //        Context.Materails.Find(id).Isdelete=true;
-                //        Context.SaveChanges();
-                //        return;
-                //    }
-                //}
 
-                var One = CollecMaterail.Where(item=>item.Id==id).FirstOrDefault();
+                var One = CollecMaterail.Where(item => item.Id == id).FirstOrDefault();
                 _CollecMaterail.Remove(One);
                 C_Materail.Remove(One);
                 Context.Materails.Find(id).Isdelete = true;
@@ -123,11 +108,11 @@ namespace WpfApp1.ViewModel
                               Context.SaveChanges();
                               MessageBox.Show("Done");
                               return;
-                          
+
                           }
                       }
-                  });}
-            set{_CommandUpdate=value;}
+                  }); }
+            set { _CommandUpdate = value; }
         }
 
         private ICommand _CommandAdd;
@@ -142,8 +127,7 @@ namespace WpfApp1.ViewModel
                      s.Name = _NameMaterial;
                      s.Price = _price;
                      s.Isdelete = false;
-                     var selecttype = (from type in _ListItemOfType where type.Name == _nameType select type.Id).First(); ;
-                     s.TypeId =selecttype;
+                     s.TypeId = _selecttype.Value;
                      Context.Materails.Add(s);
                      Context.SaveChanges();
                      MessageBox.Show("Done");
@@ -160,14 +144,16 @@ namespace WpfApp1.ViewModel
             {
                 return _CommandAddType = new Command(() =>
                {
-                   var s = Context.Types.First();
-                   s.Name = _NameType;
-                   Context.Types.Add(s);
-                   //var m = Context.Types.Select(t=>t.Id).Max();
-                   _ListItemOfType.Add(new CheckedBoxType() {Name=s.Name,IsChecked=true});
+                   Model.Type SetType = new Model.Type()
+                   {
+                       Name = _NameType
+                   };
+                   Context.Types.Add(SetType);
 
-                   FillListItemToType();
                    Context.SaveChanges();
+                   MessageBox.Show(SetType.Id.ToString());
+                   FillListItemToType();
+
                    OnPropertyChanged(nameof(ListItemOfType));
 
 
@@ -179,11 +165,13 @@ namespace WpfApp1.ViewModel
         private ICommand _CommandOpenAdd;
         public ICommand CommandOpenAdd
         {
-            get { return _CommandOpenAdd=new Command(() =>
-            {
-                _IsOpenAdd = true;
-                OnPropertyChanged(nameof(IsOpenAdd));
-            }); }
+            get { return _CommandOpenAdd = new Command(() =>
+              {
+
+                  _IsOpenAdd = true;
+
+                  OnPropertyChanged(nameof(IsOpenAdd));
+              }); }
             set { _CommandOpenAdd = value; }
         }
         private ICommand _CommandCloseAdd;
@@ -208,9 +196,7 @@ namespace WpfApp1.ViewModel
                 {
                     _IsOpenAdd = false;
                     OnPropertyChanged(nameof(IsOpenAdd));
-                    Windowtype WM = new Windowtype();
-    
-                    WM.Show();
+
 
                 });
             }
@@ -223,21 +209,140 @@ namespace WpfApp1.ViewModel
             {
                 return _Commandplusb = new CommandT<int>(buy =>
                 {
-                    List<Model.Materail> mymaterails = new List<Model.Materail>();
-                    var s = _CollecMaterail.Single(m => m.Id == buy);
-                    mymaterails.Add(s);
-
-                   
-                    //Materail IdS = Context.Materails.Single(M => M.Id == buy);
-
+               
+                    IDM.Add(buy);
                     _itembuy += 1;
-                    MessageBox.Show(buy.ToString());
                     OnPropertyChanged(nameof(itembuy));
+
                 });
             }
             set { _Commandplusb = value; }
         }
 
+        private ICommand _CommandToBill;
+        public ICommand CommandToBill
+        {
+            get
+            {
+                return _CommandToBill = new Command(() =>
+                {
+         
+                    ObservableCollection<Model.Materail> NewOne = new ObservableCollection<Model.Materail>();
+               
+                    foreach (var item in _CollecMaterail)
+                    {
+                        if (IDM.Contains(item.Id))
+                        {
+                            NewOne.Add(item);
+                      
+                        }
+                        var newm = _mymaterails.Where(t => t.Id == item.Id).First();
+                        var s = NewOne.Where(m => m.Id == item.Id).First();
+                        newm.Name = s.Name;
+                        newm.Price = s.Price;
+                        newm.Price = _NumbMaterial;
+                        OnPropertyChanged(nameof(mymaterails));
+                        _itembuy = 0;
+                    }
+                    //////////////////////////////////BAD WAY///////////////////////////////////////////////////
+                    //_mymaterails = Context.Materails.Include(nameof(Model.Type)).Where(m => !m.Isdelete).ToObservableCollection();
+                    //OnPropertyChanged(nameof(mymaterails));
+                    //ObservableCollection<Model.Materail> NewOne= new ObservableCollection<Model.Materail>();
+
+                    //foreach (var item in _mymaterails)
+                    //{
+                    //    if (IDM.Contains(item.Id))
+                    //    {
+                    //        Materail FMI = Context.Materails.Single(M => M.Id == item.Id);
+                    //        NewOne.Add(FMI);
+                    //        MessageBox.Show("s");
+                    //    }
+
+                    //}
+                    //_mymaterails = NewOne;
+                    //OnPropertyChanged(nameof(mymaterails));
+                    WindowBill windowBill = new WindowBill();
+                    windowBill.Show();
+                    _CountBill += 1;
+                });
+            }
+            set { _CommandToBill = value; }
+        }
+        private ICommand _CommandAddBill;
+        public ICommand CommandAddBill
+        {
+            get
+            {
+                return _CommandAddBill = new Command(() =>
+                {
+                    Bill bill = new Bill();
+                    bill.DateOut = DateTime.Now;
+                    bill.Number = _CountBill;
+                    bill.Name = _NameBill;
+                    bill.Totile = _totlPrice;
+                    Context.Bills.Add(bill);
+                    Context.SaveChanges();
+                    FillBill();
+
+                });
+            }
+            set { _CommandAddBill = value; }
+        }
+        private ICommand _CommandGoBill;
+        public ICommand CommandGoBill
+        {
+            get
+            {
+                return _CommandGoBill = new Command(() =>
+                {
+                    WindowViewBill window = new WindowViewBill();
+                    window.Show();
+
+                });
+            }
+            set { _CommandGoBill = value; }
+        }
+        private ICommand _CommandSearch;
+        public ICommand CommandSearch
+        {
+            get
+            {
+                return _CommandSearch = new Command(() =>
+                {
+                    var search = _ListBill.Where(item => item.Name == _NameBill).FirstOrDefault();
+
+                });
+            }
+            set { _CommandSearch = value; }
+        }
+        private ICommand _CommandDeleteBill;
+        public ICommand CommandDeleteBill
+        {
+            get
+            {
+                return _CommandDeleteBill = new CommandT<int>(delete =>
+                {
+                    var Dbill = _ListBill.Where(item => item.Id == delete).FirstOrDefault();
+                    _ListBill.Remove(Dbill);
+                    Context.Bills.Find(delete).Isdelete = true;
+                    Context.SaveChanges();
+                });
+            }
+            set { _CommandDeleteBill = value; }
+        }
+        private ICommand _Commandrest;
+        public ICommand Commandrest
+        {
+            get
+            {
+                return _Commandrest = new Command(() =>
+                {
+                    _itembuy = 0;
+                    IDM= new List<int>();
+                });
+            }
+            set { _CommandDeleteBill = value; }
+        }
         #endregion
 
         #region -   Action  -
@@ -252,19 +357,15 @@ namespace WpfApp1.ViewModel
         #endregion
 
         #region -   Method  -
-        private void FillListItemToType()/////كرمال عبي ال list تيعت ال class
-        {
-
+        private void FillListItemToType()
+        { 
             _ListItemOfType = Context.Types.Select(t => new CheckedBoxType()
             {
                 Id = t.Id,
                 Name = t.Name,
                 IsChecked = true,
-            }).
-                ToObservableCollection();
-
+            }).ToObservableCollection();
             OnPropertyChanged(nameof(ListItemOfType));
-
         }
         private void FillMaterial()
         {
@@ -278,9 +379,37 @@ namespace WpfApp1.ViewModel
 
             C_Materail = _CollecMaterail.ToObservableCollection();
         }
+        private void FillBill()
+        {
+
+            _ListBill = Context.Bills.
+                Where(m => !m.Isdelete).ToObservableCollection();
+            OnPropertyChanged(nameof(ListBill));
 
 
+            //C_Materail = _ListBill.ToObservableCollection();
+        }
+        private void FillBillMaterail()
+        {
 
+            _ListBillMaterail = Context.billMaterails.
+                Where(m => !m.Isdelete).ToObservableCollection();
+            OnPropertyChanged(nameof(ListBillMaterail));
+
+
+            //C_Materail = _ListBill.ToObservableCollection();
+        }
+        private void FillJustMaterail ()
+        {
+            _mymaterails = Context.Materails.Select(t => new JustMaterail()
+            {
+                Id = t.Id,
+                Name = t.Name,
+                Price = t.Price,
+                Num = _NumbMaterial
+            }).ToObservableCollection();
+            OnPropertyChanged(nameof(mymaterails));
+        }
         #endregion
 
         #region -   InnerClass  -
@@ -295,6 +424,18 @@ namespace WpfApp1.ViewModel
                 set { _IsChecked = value; }
             }
         }
+        public class JustMaterail
+        {
+            public int Id { get; set; }
+            public string Name { get; set; }
+            public double Price { get; set; }
+            private int _Num;
+            public int Num
+            {
+                get { return _Num; }
+                set { _Num = value; }
+            }
+        }
 
 
         #endregion
@@ -302,6 +443,15 @@ namespace WpfApp1.ViewModel
         #region -   Propertie   -
 
         #region -   List    -
+        private ObservableCollection<JustMaterail> _mymaterails;
+        public ObservableCollection<JustMaterail> mymaterails
+        {
+            get { return _mymaterails; }
+            set
+            {
+                _mymaterails = value;
+            }
+        }
         private ObservableCollection<CheckedBoxType> _ListItemOfType;
         public ObservableCollection<CheckedBoxType> ListItemOfType
         {
@@ -311,8 +461,6 @@ namespace WpfApp1.ViewModel
                 _ListItemOfType = value;
             }
         }
-
-
         private ObservableCollection<Model.Materail> _CollecMaterail;
         public ObservableCollection<Model.Materail> CollecMaterail
         {
@@ -328,25 +476,24 @@ namespace WpfApp1.ViewModel
                 _ListBill = value;
             }
         }
-        private ObservableCollection<Model.Store> _ListStore;
-        public ObservableCollection<Model.Store> ListStore
+        private ObservableCollection<Model.BillMaterail> _ListBillMaterail;
+        public ObservableCollection<Model.BillMaterail> ListBillMaterail
         {
-            get { return _ListStore; }
+            get { return _ListBillMaterail; }
             set
             {
-                _ListStore = value;
+                _ListBillMaterail = value;
             }
         }
-
-
         #endregion
 
         #region -   Object  -
-
-
-
-
-
+        private int? _selecttype;
+        public int? selecttype
+        {
+            get { return _selecttype; }
+            set { _selecttype = value; }
+        }
         #endregion
 
         #region -   String  -
@@ -384,12 +531,23 @@ namespace WpfApp1.ViewModel
             get { return _NameType; }
             set { _NameType = value; }
         }
+        private string _NameBill;
+        public string NameBill
+        {
+            get { return _NameBill; }
+            set { _NameBill = value; }
+        }
 
         #endregion
 
         #region -   Date    -
 
-
+        private DateTime _OutBill;
+        public DateTime OutBill
+        {
+            get { return _OutBill; }
+            set { _OutBill = value; }
+        }
 
 
         #endregion
@@ -408,7 +566,24 @@ namespace WpfApp1.ViewModel
             get { return _itembuy; }
             set { _itembuy = value; }
         }
-
+        private int _CountBill;
+        public int CountBill
+        {
+            get { return _CountBill; }
+            set { _CountBill = value; }
+        }
+        private int _NumbMaterial;
+        public int NumbMaterial
+        {
+            get { return _NumbMaterial; }
+            set { _NumbMaterial = value; }
+        }
+        private int _totlPrice;
+        public int totlPrice
+        {
+            get { return _totlPrice; }
+            set { _totlPrice = value; }
+        }
         #endregion
 
         #region -   Bool    -

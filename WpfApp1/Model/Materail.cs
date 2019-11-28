@@ -12,6 +12,6 @@ namespace WpfApp1.Model
         public double Price { get; set; }
         public int TypeId { get; set; }
         public Type type { get; set; }
-        public ICollection<Store>  Stores { get; set; }
+        public ICollection<BillMaterail>  billMaterails { get; set; }
     }
 }
