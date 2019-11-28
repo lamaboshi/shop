@@ -143,7 +143,7 @@ namespace WpfApp1.ViewModel
             get
             {
                 return _CommandAddType = new Command(() =>
-               {
+                {
                    Model.Type SetType = new Model.Type()
                    {
                        Name = _NameType
