@@ -52,9 +52,7 @@
                 <ItemsControl ItemsSource="{Binding CollecMaterail,UpdateSourceTrigger=PropertyChanged,NotifyOnSourceUpdated=True,NotifyOnTargetUpdated=True}" >
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
-                            <WrapPanel>
-
-                            </WrapPanel>
+                            <WrapPanel/>
                         </ItemsPanelTemplate>
                     </ItemsControl.ItemsPanel>
                     <ItemsControl.ItemTemplate>
@@ -98,7 +96,7 @@
             </Grid>
             <Grid  Grid.Row="2">
                 <materialDesign:Badged Badge="{Binding itembuy,UpdateSourceTrigger=PropertyChanged}">
-                    <Button Command="{Binding CommandToBill,UpdateSourceTrigger=PropertyChanged}" Background="#FF3B4583"  Margin="5" Width="44" Height="50" Click="Button_Click">
+                    <Button Command="{Binding CommandToBill}"  Background="#FF3B4583"  Margin="5" Width="44" Height="50" Click="Button_Click">
                         <materialDesign:PackIcon Kind="Cup" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </Button>
                 </materialDesign:Badged>

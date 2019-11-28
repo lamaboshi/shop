@@ -24,9 +24,6 @@ namespace WpfApp1.View
             InitializeComponent();
         }
 
-        private void AddBtn1_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
+    
     }
 }

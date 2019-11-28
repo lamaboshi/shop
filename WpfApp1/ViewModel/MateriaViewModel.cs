@@ -30,6 +30,7 @@ namespace WpfApp1.ViewModel
             _CollecMaterail = new ObservableCollection<Model.Materail>();
             _ListItemOfType = new ObservableCollection<CheckedBoxType>();
             _ListBill = new ObservableCollection<Model.Bill>();
+            _mymaterails = new ObservableCollection<JustMaterail>();
             FillListItemToType();
             FillMaterial();
             FillJustMaterail();
@@ -120,7 +121,6 @@ namespace WpfApp1.ViewModel
         {
             get
             {
-
                 return _CommandAdd = new Command(() =>
                  {
                      Materail s = new Materail();
@@ -207,13 +207,11 @@ namespace WpfApp1.ViewModel
         {
             get
             {
-                return _Commandplusb = new CommandT<int>(buy =>
+                return _Commandplusb = new CommandT<int>(MaterialId =>
                 {
-               
-                    IDM.Add(buy);
+                    IDM.Add(MaterialId);
                     _itembuy += 1;
                     OnPropertyChanged(nameof(itembuy));
-
                 });
             }
             set { _Commandplusb = value; }
@@ -226,44 +224,80 @@ namespace WpfApp1.ViewModel
             {
                 return _CommandToBill = new Command(() =>
                 {
-         
-                    ObservableCollection<Model.Materail> NewOne = new ObservableCollection<Model.Materail>();
-               
-                    foreach (var item in _CollecMaterail)
+
+
+
+                    var getListMaterail = _CollecMaterail.Where(m => IDM.Contains(m.Id));
+                    _mymaterails.Clear();
+                    
+                    foreach (var item in getListMaterail)
                     {
-                        if (IDM.Contains(item.Id))
+                        var SetJustMaterail = new JustMaterail()
                         {
-                            NewOne.Add(item);
-                      
-                        }
-                        var newm = _mymaterails.Where(t => t.Id == item.Id).First();
-                        var s = NewOne.Where(m => m.Id == item.Id).First();
-                        newm.Name = s.Name;
-                        newm.Price = s.Price;
-                        newm.Price = _NumbMaterial;
-                        OnPropertyChanged(nameof(mymaterails));
-                        _itembuy = 0;
+                            Id = item.Id,
+                            Name = item.Name,
+                            Price = item.Price,
+                            Qantity = 1
+                        };
+                        _mymaterails.Add(SetJustMaterail);
                     }
-                    //////////////////////////////////BAD WAY///////////////////////////////////////////////////
-                    //_mymaterails = Context.Materails.Include(nameof(Model.Type)).Where(m => !m.Isdelete).ToObservableCollection();
-                    //OnPropertyChanged(nameof(mymaterails));
-                    //ObservableCollection<Model.Materail> NewOne= new ObservableCollection<Model.Materail>();
+                    OnPropertyChanged(nameof(mymaterails));
 
-                    //foreach (var item in _mymaterails)
-                    //{
-                    //    if (IDM.Contains(item.Id))
-                    //    {
-                    //        Materail FMI = Context.Materails.Single(M => M.Id == item.Id);
-                    //        NewOne.Add(FMI);
-                    //        MessageBox.Show("s");
-                    //    }
+                    WindowBill windowBill = new WindowBill() {
+                        DataContext = this,
+                    };
+                    windowBill.ShowDialog();
 
-                    //}
-                    //_mymaterails = NewOne;
-                    //OnPropertyChanged(nameof(mymaterails));
-                    WindowBill windowBill = new WindowBill();
-                    windowBill.Show();
-                    _CountBill += 1;
+                    _itembuy = 0;
+                    OnPropertyChanged(nameof(itembuy));
+                    IDM.Clear();
+
+
+                    // _mymaterails.ToList().AddRange(
+                    //     _CollecMaterail.Where(m=>IDM.Contains(m.Id)).Select(m=>new JustMaterail() { 
+
+                    //     })
+                    //     );
+
+                    ////TODO IDM.Clear();
+
+                    // ObservableCollection<Model.Materail> NewOne = new ObservableCollection<Model.Materail>();
+
+                    // foreach (var item in _CollecMaterail)
+                    // {
+                    //     if (IDM.Contains(item.Id))
+                    //     {
+                    //         NewOne.Add(item);
+
+                    //     }
+                    //     var newm = _mymaterails.Where(t => t.Id == item.Id).First();
+                    //     var s = NewOne.Where(m => m.Id == item.Id).First();
+                    //     newm.Name = s.Name;
+                    //     newm.Price = s.Price;
+                    //     newm.Price = _NumbMaterial;
+                    //     OnPropertyChanged(nameof(mymaterails));
+                    //     _itembuy = 0;
+                    // }
+                    // //////////////////////////////////BAD WAY///////////////////////////////////////////////////
+                    // //_mymaterails = Context.Materails.Include(nameof(Model.Type)).Where(m => !m.Isdelete).ToObservableCollection();
+                    // //OnPropertyChanged(nameof(mymaterails));
+                    // //ObservableCollection<Model.Materail> NewOne= new ObservableCollection<Model.Materail>();
+
+                    // //foreach (var item in _mymaterails)
+                    // //{
+                    // //    if (IDM.Contains(item.Id))
+                    // //    {
+                    // //        Materail FMI = Context.Materails.Single(M => M.Id == item.Id);
+                    // //        NewOne.Add(FMI);
+                    // //        MessageBox.Show("s");
+                    // //    }
+
+                    // //}
+                    // //_mymaterails = NewOne;
+                    // //OnPropertyChanged(nameof(mymaterails));
+                    // WindowBill windowBill = new WindowBill();
+                    // windowBill.Show();
+                    // _CountBill += 1;
                 });
             }
             set { _CommandToBill = value; }
@@ -275,14 +309,26 @@ namespace WpfApp1.ViewModel
             {
                 return _CommandAddBill = new Command(() =>
                 {
-                    Bill bill = new Bill();
-                    bill.DateOut = DateTime.Now;
-                    bill.Number = _CountBill;
-                    bill.Name = _NameBill;
-                    bill.Totile = _totlPrice;
-                    Context.Bills.Add(bill);
+                  
+
+                    var SetBill = new Bill()
+                    {
+                        DateOut=DateTime.Now,
+                        Number = _CountBill,
+                        Name = _NameBill,
+                        Totile = _mymaterails.Sum(m=>m.Price),
+                        billMaterails= _mymaterails.Select(m=> new BillMaterail()
+                        {
+                            MaterailId=m.Id,
+                            Count=m.Qantity,
+                        }).ToList()
+                    };
+
+                
+                    Context.Bills.Add(SetBill);
                     Context.SaveChanges();
-                    FillBill();
+                    mymaterails.Clear();
+                 //   FillBill();
 
                 });
             }
@@ -401,14 +447,14 @@ namespace WpfApp1.ViewModel
         }
         private void FillJustMaterail ()
         {
-            _mymaterails = Context.Materails.Select(t => new JustMaterail()
-            {
-                Id = t.Id,
-                Name = t.Name,
-                Price = t.Price,
-                Num = _NumbMaterial
-            }).ToObservableCollection();
-            OnPropertyChanged(nameof(mymaterails));
+            //_mymaterails = Context.Materails.Select(t => new JustMaterail()
+            //{
+            //    Id = t.Id,
+            //    Name = t.Name,
+            //    Price = t.Price,
+            //    Qantity = _NumbMaterial
+            //}).ToObservableCollection();
+            //OnPropertyChanged(nameof(mymaterails));
         }
         #endregion
 
@@ -424,16 +470,18 @@ namespace WpfApp1.ViewModel
                 set { _IsChecked = value; }
             }
         }
+
         public class JustMaterail
         {
             public int Id { get; set; }
             public string Name { get; set; }
             public double Price { get; set; }
-            private int _Num;
-            public int Num
+
+            private int _Qantity;
+            public int Qantity
             {
-                get { return _Num; }
-                set { _Num = value; }
+                get { return _Qantity; }
+                set { _Qantity = value; }
             }
         }
 
@@ -443,6 +491,7 @@ namespace WpfApp1.ViewModel
         #region -   Propertie   -
 
         #region -   List    -
+
         private ObservableCollection<JustMaterail> _mymaterails;
         public ObservableCollection<JustMaterail> mymaterails
         {
@@ -452,6 +501,8 @@ namespace WpfApp1.ViewModel
                 _mymaterails = value;
             }
         }
+
+
         private ObservableCollection<CheckedBoxType> _ListItemOfType;
         public ObservableCollection<CheckedBoxType> ListItemOfType
         {
@@ -461,12 +512,15 @@ namespace WpfApp1.ViewModel
                 _ListItemOfType = value;
             }
         }
+
         private ObservableCollection<Model.Materail> _CollecMaterail;
         public ObservableCollection<Model.Materail> CollecMaterail
         {
             get { return _CollecMaterail; }
             set{ _CollecMaterail = value;}
         }
+        
+
         private ObservableCollection<Model.Bill> _ListBill;
         public ObservableCollection<Model.Bill> ListBill
         {
