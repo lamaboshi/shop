@@ -1,0 +1,40 @@
+﻿<UserControl x:Class="WpfApp1.View.ShowBillUserControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WpfApp1.View"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid Background="White">
+        <!--<Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>-->
+                <Border BorderThickness="5"  BorderBrush="Black" Width="450" Height="370">
+            <Grid>
+                <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="50"/>
+
+        </Grid.RowDefinitions>
+                <DataGrid Grid.Row="0"  Margin="2"  Background= "White" CanUserAddRows="False"  CanUserDeleteRows="False" 
+                        AutoGenerateColumns="False" ItemsSource="{Binding mymaterails,UpdateSourceTrigger=PropertyChanged,NotifyOnSourceUpdated=True,NotifyOnTargetUpdated=True }"  >
+                    <DataGrid.Columns >
+                        <DataGridTextColumn Header="Number Bill" Binding="{Binding Number}" />
+                         <DataGridTextColumn  Header="Name Bill" Binding="{Binding Name}"/>
+                        <DataGridTextColumn  Header="Totile Price" Binding="{Binding Totile}" />
+                    </DataGrid.Columns>
+         
+            </DataGrid>
+                <StackPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Width="200">
+                    <Button Command="{Binding Commandclosbill}" Background="#FF3B4583">
+                        <TextBlock Text="CANCEL"></TextBlock>
+                    </Button>
+                </StackPanel>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

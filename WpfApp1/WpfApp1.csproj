@@ -98,6 +98,9 @@
     <Compile Include="View\AddMaterialUserControl.xaml.cs">
       <DependentUpon>AddMaterialUserControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\ShowBillUserControl.xaml.cs">
+      <DependentUpon>ShowBillUserControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\WindowBill.xaml.cs">
       <DependentUpon>WindowBill.xaml</DependentUpon>
     </Compile>
@@ -123,6 +126,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="View\AddMaterialUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ShowBillUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

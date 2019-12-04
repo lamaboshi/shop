@@ -21,19 +21,15 @@
 
             </Grid.RowDefinitions>
             <Grid Grid.Row="0" Background="#FFCDCBCB">
-                <Button Margin="3" HorizontalAlignment="Left"  Background="#FF3B4583" Height="45" Width="45" Style="{StaticResource MaterialDesignFloatingActionDarkButton}">
-                    <materialDesign:PackIcon  Kind="Backburger" Height="40"  />
-                </Button>
+
                 <TextBlock FontWeight="Bold" FontSize="25" Foreground="#FF3B4583" VerticalAlignment="Center" HorizontalAlignment="Center" Text="Add New Type"></TextBlock>
             </Grid>
             <Grid Grid.Row="1">
                 <Grid>
                     <StackPanel>
-                        <TextBlock Text="Type Name :" FontSize="15"  Foreground="Black"  Margin="2" />
+                        <TextBlock Text="Type Name :" FontSize="20"  Foreground="Black"  Margin="10" />
                         <TextBox Text="{Binding NameType}" Name="nameTypein" Width="300" HorizontalAlignment="Left" Background="White" Margin="10"/>
-                        <Button Command="{Binding CommandAddType}" HorizontalAlignment="Right" Width="80" Height="50" Margin="0,0,15,0"  >
-                            <materialDesign:PackIcon Kind="ContentSave" Width="40" Height="30" />
-                        </Button>
+
 
                     </StackPanel>
                 </Grid>
@@ -62,8 +58,8 @@
                 </Grid>
             </Grid>
             <Grid Grid.Row="3">
-                <Button Click="AddBtn_Click" Margin="5" Background="#FF3B4583" Name="AddBtn" Width="150" Height="50" HorizontalAlignment="Center" VerticalAlignment="Bottom">
-                    <TextBlock Text="Add New Material" Foreground="White" ></TextBlock>
+                <Button Command="{Binding CommandAddType}" VerticalAlignment="Center" HorizontalAlignment="Center" Width="100" Height="55"  >
+                    <materialDesign:PackIcon Kind="ContentSave" Width="40" Height="30" />
                 </Button>
             </Grid>
         </Grid>

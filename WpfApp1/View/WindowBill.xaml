@@ -28,7 +28,7 @@
                     <TextBlock FontSize="15" Margin="3" Text="Name Bill :"/>
                     <TextBox  Text="{Binding NameBill}" />
                 </StackPanel>
-                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5" FontSize="30"  Foreground="#FF3B4583" FontWeight="Bold" Text="{Binding CountBill}" />
+                <TextBlock Text="{Binding CountBill}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5" FontSize="30"  Foreground="#FF3B4583" FontWeight="Bold"  />
 
 
             </Grid>
@@ -39,24 +39,25 @@
                     <DataGrid.Columns >
                         <DataGridTextColumn Header="Name" Binding="{Binding Name}" />
                         <DataGridTextColumn Header="Price" Binding="{Binding Price}" />
-                        <DataGridTextColumn Header="Price" Binding="{Binding Qantity}" />
+                        <!--عرض-->
                         <DataGridTemplateColumn Header="Number Materail" >
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <Slider  Minimum="0" Maximum="50" Style="{StaticResource MaterialDesignDiscreteSlider}" Value="25" Width="120" />
+                                    <Grid Height="50" Width="65">
+                                        <TextBlock Width="30" HorizontalAlignment="Left"  Text="{Binding DataContext.NumbMaterial,RelativeSource={RelativeSource AncestorType={x:Type DataGrid}},UpdateSourceTrigger=PropertyChanged}" Margin="3" VerticalAlignment="Center" Height="40" />
+                                        <StackPanel HorizontalAlignment="Right">
+                                            <Button Command="{Binding DataContext.CommandPlusOne,RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" Height="20" Width="20" Margin="3" VerticalAlignment="Top">
+                                                <materialDesign:PackIcon  Kind="ArrowUpBoldBoxOutline" />
+                                            </Button>
+                                            <Button Command="{Binding DataContext.CommandMinusOne,RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"   Height="20" Width="20" Margin="3" VerticalAlignment="Bottom">
+                                                <materialDesign:PackIcon Width="14" Height="12" HorizontalAlignment="Center" Kind="ArrowDownBoldBoxOutline" />
+                                            </Button>
+                                        </StackPanel>
+                                    </Grid>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
-                        <!--عرض-->
-                        <DataGridTemplateColumn >
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <Button Command="{Binding DataContext.CommandGoBill,RelativeSource={RelativeSource  AncestorType={x:Type DataGrid}}}" >
-                                        <materialDesign:PackIcon Kind="Show" />
-                                    </Button>
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
+                        <DataGridTextColumn Header="Final price" Binding="{Binding Qantity}" />
                     </DataGrid.Columns>
                     
                 </DataGrid>

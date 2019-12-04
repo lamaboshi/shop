@@ -50,15 +50,18 @@
 
                     </StackPanel>
                 </Grid>-->
-                <WrapPanel Height="30" Width="50">
-                    <TextBlock Width="20" HorizontalAlignment="Center" Margin="2,2,0,0" VerticalAlignment="Bottom" Height="25" />
-                    <StackPanel>
-                        <Button Height="12" Width="16" Margin="3" VerticalAlignment="Top">
-                            <materialDesign:PackIcon Height="2" Width="" Kind="ArrowDownBoldOutline" />
+
+                <Grid Height="50" Width="65">
+                    <TextBlock Width="30" HorizontalAlignment="Left" Text="dsfd" Margin="3" VerticalAlignment="Center" Height="40" />
+                    <StackPanel HorizontalAlignment="Right">
+                        <Button Height="20" Width="20" Margin="3" VerticalAlignment="Top">
+                            <materialDesign:PackIcon  Kind="ArrowUpBoldBoxOutline" />
                         </Button>
-                    <Button  Height="12" Width="16" VerticalAlignment="Bottom"></Button>
+                        <Button  Height="20" Width="20" Margin="3" VerticalAlignment="Bottom">
+                            <materialDesign:PackIcon Width="14" Height="12" HorizontalAlignment="Center" Kind="ArrowDownBoldBoxOutline" />
+                        </Button>
                     </StackPanel>
-                </WrapPanel>
+                </Grid>
             </Border>
 
         </Grid>

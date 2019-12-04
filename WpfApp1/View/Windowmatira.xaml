@@ -66,7 +66,7 @@
                                             <RowDefinition Height="*"/>
                                         </Grid.RowDefinitions>
                                         <TextBlock HorizontalAlignment="Center" VerticalAlignment="Top" Foreground="#FF3B4583" FontWeight="Bold" FontSize="18" Text="{Binding type.Name}" ></TextBlock>
-                                        <Button  Background="#FF3B4583" CommandParameter="{Binding Id}" Command="{Binding DataContext.Commandplusb,RelativeSource={RelativeSource  AncestorType={x:Type ItemsControl}}}" HorizontalAlignment="Left" Width="20" Height="20" VerticalAlignment="Bottom" Margin="2,1,170,2" Style="{StaticResource MaterialDesignFloatingActionDarkButton}" ToolTip="MaterialDesignFloatingActionDarkButton">
+                                        <Button Name="plus"  Background="#FF3B4583" CommandParameter="{Binding Id}" Command="{Binding DataContext.Commandplusb,RelativeSource={RelativeSource  AncestorType={x:Type ItemsControl}}}" HorizontalAlignment="Left" Width="20" Height="20" VerticalAlignment="Bottom" Margin="2,1,170,2" Style="{StaticResource MaterialDesignFloatingActionDarkButton}">
                                             <materialDesign:PackIcon Kind="TrolleyPlus" Height="13" Width="13"/>
                                         </Button>
                                         <StackPanel Grid.Row="1" >
@@ -100,11 +100,14 @@
                         <materialDesign:PackIcon Kind="Cup" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </Button>
                 </materialDesign:Badged>
-                <Button Command="{Binding Commandrest,UpdateSourceTrigger=PropertyChanged}" Background="#FF3B4583" VerticalAlignment="Bottom" HorizontalAlignment="Left"  Margin="65 5 5 5" Width="40" Height="30">
+                <Button Command="{Binding CommandRest,UpdateSourceTrigger=PropertyChanged}" Background="#FF3B4583" VerticalAlignment="Bottom" HorizontalAlignment="Left"  Margin="65 5 5 5" Width="40" Height="30">
                     <materialDesign:PackIcon Kind="DeleteRestore"  HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </Button>
                 <Button Background="#FF3B4583" Margin="5" Command="{Binding CommandOpenAdd}"  Name="AddBtn" Width="135" Height="50" HorizontalAlignment="Center">
                     <TextBlock Text="Add New Type" Foreground="Beige" />
+                </Button>
+                <Button Background="#FF3B4583" Margin="5" Command="{Binding CommandGoBill}"   Width="100" Height="50" HorizontalAlignment="Right" Click="Button_Click_1">
+                    <TextBlock Text="Bill" Foreground="Beige" />
                 </Button>
             </Grid>
         </Grid>

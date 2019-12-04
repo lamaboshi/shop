@@ -24,9 +24,8 @@ namespace WpfApp1.ViewModel
         #region -   Constructor    -
         public MateriaViewModel()
         {
-            Context = new ContactContext();
-            _NumbMaterial=1;
 
+            Context = new ContactContext();
             _CollecMaterail = new ObservableCollection<Model.Materail>();
             _ListItemOfType = new ObservableCollection<CheckedBoxType>();
             _ListBill = new ObservableCollection<Model.Bill>();
@@ -132,6 +131,7 @@ namespace WpfApp1.ViewModel
                      Context.SaveChanges();
                      MessageBox.Show("Done");
                      FillMaterial();
+                     ClrM();
                      _IsOpenAdd = false;
                      OnPropertyChanged(nameof(IsOpenAdd));
                  }); }
@@ -151,9 +151,7 @@ namespace WpfApp1.ViewModel
                    Context.Types.Add(SetType);
 
                    Context.SaveChanges();
-                   MessageBox.Show(SetType.Id.ToString());
                    FillListItemToType();
-
                    OnPropertyChanged(nameof(ListItemOfType));
 
 
@@ -181,7 +179,10 @@ namespace WpfApp1.ViewModel
             {
                 return _CommandCloseAdd = new Command(() =>
                 {
+                    ClrM();
                     _IsOpenAdd = false;
+
+    
                     OnPropertyChanged(nameof(IsOpenAdd));
                 });
             }
@@ -196,7 +197,8 @@ namespace WpfApp1.ViewModel
                 {
                     _IsOpenAdd = false;
                     OnPropertyChanged(nameof(IsOpenAdd));
-
+                    Windowtype windowtype = new Windowtype();
+                    windowtype.ShowDialog();
 
                 });
             }
@@ -210,8 +212,10 @@ namespace WpfApp1.ViewModel
                 return _Commandplusb = new CommandT<int>(MaterialId =>
                 {
                     IDM.Add(MaterialId);
+
                     _itembuy += 1;
                     OnPropertyChanged(nameof(itembuy));
+          
                 });
             }
             set { _Commandplusb = value; }
@@ -224,12 +228,11 @@ namespace WpfApp1.ViewModel
             {
                 return _CommandToBill = new Command(() =>
                 {
-
-
-
                     var getListMaterail = _CollecMaterail.Where(m => IDM.Contains(m.Id));
                     _mymaterails.Clear();
-                    
+                    _CountBill = _ListBill.Select(s => s.Number).Max() + 1;
+                    OnPropertyChanged(nameof(CountBill));
+                    OnPropertyChanged(nameof(NumbMaterial)); 
                     foreach (var item in getListMaterail)
                     {
                         var SetJustMaterail = new JustMaterail()
@@ -237,67 +240,27 @@ namespace WpfApp1.ViewModel
                             Id = item.Id,
                             Name = item.Name,
                             Price = item.Price,
-                            Qantity = 1
+
+                            Qantity = item.Price*_NumbMaterial
                         };
                         _mymaterails.Add(SetJustMaterail);
+                      
                     }
+                    _totlPrice = _mymaterails.Sum(m => m.Qantity);
                     OnPropertyChanged(nameof(mymaterails));
-
                     WindowBill windowBill = new WindowBill() {
                         DataContext = this,
                     };
                     windowBill.ShowDialog();
-
                     _itembuy = 0;
                     OnPropertyChanged(nameof(itembuy));
                     IDM.Clear();
-
-
                     // _mymaterails.ToList().AddRange(
                     //     _CollecMaterail.Where(m=>IDM.Contains(m.Id)).Select(m=>new JustMaterail() { 
 
                     //     })
                     //     );
 
-                    ////TODO IDM.Clear();
-
-                    // ObservableCollection<Model.Materail> NewOne = new ObservableCollection<Model.Materail>();
-
-                    // foreach (var item in _CollecMaterail)
-                    // {
-                    //     if (IDM.Contains(item.Id))
-                    //     {
-                    //         NewOne.Add(item);
-
-                    //     }
-                    //     var newm = _mymaterails.Where(t => t.Id == item.Id).First();
-                    //     var s = NewOne.Where(m => m.Id == item.Id).First();
-                    //     newm.Name = s.Name;
-                    //     newm.Price = s.Price;
-                    //     newm.Price = _NumbMaterial;
-                    //     OnPropertyChanged(nameof(mymaterails));
-                    //     _itembuy = 0;
-                    // }
-                    // //////////////////////////////////BAD WAY///////////////////////////////////////////////////
-                    // //_mymaterails = Context.Materails.Include(nameof(Model.Type)).Where(m => !m.Isdelete).ToObservableCollection();
-                    // //OnPropertyChanged(nameof(mymaterails));
-                    // //ObservableCollection<Model.Materail> NewOne= new ObservableCollection<Model.Materail>();
-
-                    // //foreach (var item in _mymaterails)
-                    // //{
-                    // //    if (IDM.Contains(item.Id))
-                    // //    {
-                    // //        Materail FMI = Context.Materails.Single(M => M.Id == item.Id);
-                    // //        NewOne.Add(FMI);
-                    // //        MessageBox.Show("s");
-                    // //    }
-
-                    // //}
-                    // //_mymaterails = NewOne;
-                    // //OnPropertyChanged(nameof(mymaterails));
-                    // WindowBill windowBill = new WindowBill();
-                    // windowBill.Show();
-                    // _CountBill += 1;
                 });
             }
             set { _CommandToBill = value; }
@@ -309,26 +272,22 @@ namespace WpfApp1.ViewModel
             {
                 return _CommandAddBill = new Command(() =>
                 {
-                  
-
                     var SetBill = new Bill()
                     {
                         DateOut=DateTime.Now,
                         Number = _CountBill,
                         Name = _NameBill,
-                        Totile = _mymaterails.Sum(m=>m.Price),
+                        Totile = _mymaterails.Sum(m=>m.Qantity),
                         billMaterails= _mymaterails.Select(m=> new BillMaterail()
                         {
                             MaterailId=m.Id,
-                            Count=m.Qantity,
+                            Count=(int)m.Qantity,
                         }).ToList()
                     };
-
-                
                     Context.Bills.Add(SetBill);
                     Context.SaveChanges();
+                    ClrB();
                     mymaterails.Clear();
-                 //   FillBill();
 
                 });
             }
@@ -341,6 +300,7 @@ namespace WpfApp1.ViewModel
             {
                 return _CommandGoBill = new Command(() =>
                 {
+                    FillBill();
                     WindowViewBill window = new WindowViewBill();
                     window.Show();
 
@@ -355,8 +315,14 @@ namespace WpfApp1.ViewModel
             {
                 return _CommandSearch = new Command(() =>
                 {
-                    var search = _ListBill.Where(item => item.Name == _NameBill).FirstOrDefault();
-
+                    //_ListBill.Clear();
+                    //var search = _ListBill.Where(item => item.Name == _NameBill).FirstOrDefault();
+                    // Context.Bills.TakeWhile(item => item.Name == _NameBill);
+                   var search= _ListBill.TakeWhile(item => item.Name == _NameBill);
+                    //var se =_ListBill.Where(x => x.Name.Contains(_NameBill));
+                    _ListBill = search.ToObservableCollection();
+                  
+                    OnPropertyChanged(nameof(ListBill));
                 });
             }
             set { _CommandSearch = value; }
@@ -366,28 +332,108 @@ namespace WpfApp1.ViewModel
         {
             get
             {
-                return _CommandDeleteBill = new CommandT<int>(delete =>
+                return _CommandDeleteBill = new CommandT<int>(id =>
                 {
-                    var Dbill = _ListBill.Where(item => item.Id == delete).FirstOrDefault();
+                    var Dbill = _ListBill.Where(item => item.Id == id).FirstOrDefault();
                     _ListBill.Remove(Dbill);
-                    Context.Bills.Find(delete).Isdelete = true;
+                    Context.Bills.Find(id).Isdelete = true;
                     Context.SaveChanges();
                 });
             }
             set { _CommandDeleteBill = value; }
         }
-        private ICommand _Commandrest;
-        public ICommand Commandrest
+        private ICommand _CommandRest;
+        public ICommand CommandRest
         {
             get
             {
-                return _Commandrest = new Command(() =>
+                return _CommandRest = new Command(() =>
                 {
                     _itembuy = 0;
-                    IDM= new List<int>();
+                    IDM.Clear();
+                    OnPropertyChanged(nameof(itembuy));
+
                 });
             }
-            set { _CommandDeleteBill = value; }
+            set { _CommandRest = value; }
+        }
+        private ICommand _CommandPlusOne;
+        public ICommand CommandPlusOne
+        {
+            get
+            {
+                return _CommandPlusOne = new Command(() =>
+                {
+                    _NumbMaterial++;
+                    
+
+                    OnPropertyChanged(nameof(NumbMaterial));
+
+                });
+            }
+            set { _CommandPlusOne = value; }
+        }
+        private ICommand _CommandMinusOne;
+        public ICommand CommandMinusOne
+        {
+            get
+            {
+                return _CommandMinusOne = new Command(() =>
+                {
+                    if (_NumbMaterial>0)
+                    _NumbMaterial-=1;
+                    OnPropertyChanged(nameof(NumbMaterial));
+
+                });
+            }
+            set { _CommandMinusOne = value; }
+        }
+        private ICommand _Commandclosbill;
+        public ICommand Commandclosbill
+        {
+            get
+            {
+                return _Commandclosbill = new Command(() =>
+                {
+                    _IsOpenBill = false;
+                    OnPropertyChanged(nameof(IsOpenBill));
+
+                });
+            }
+            set { _Commandclosbill = value; }
+        }
+        private ICommand _CommandShowAllB;
+        public ICommand CommandShowAllB
+        {
+            get
+            {
+                return _CommandShowAllB = new CommandT<int>(id =>
+                {
+                  var se = _ListBillMaterail.Where(e => e.BillId == id).Select(n => n.MaterailId);
+
+                    var getListMaterail = _CollecMaterail.Where(m => se.Contains(m.Id));
+                    _mymaterails.Clear();
+                    foreach (var item in getListMaterail)
+                    {
+                        var SetJustMaterail = new JustMaterail()
+                        {
+                            Id = item.Id,
+                            Name = item.Name,
+                            Price = item.Price,
+                            Qantity = item.Price * _NumbMaterial
+                        };
+
+                        _mymaterails.Add(SetJustMaterail);
+
+                    }
+                    OnPropertyChanged(nameof(mymaterails));
+                    _IsOpenBill = true;
+                    OnPropertyChanged(nameof(IsOpenBill));
+
+                });
+            }
+
+            set { _CommandShowAllB = value; }
         }
         #endregion
 
@@ -427,13 +473,9 @@ namespace WpfApp1.ViewModel
         }
         private void FillBill()
         {
-
             _ListBill = Context.Bills.
                 Where(m => !m.Isdelete).ToObservableCollection();
             OnPropertyChanged(nameof(ListBill));
-
-
-            //C_Materail = _ListBill.ToObservableCollection();
         }
         private void FillBillMaterail()
         {
@@ -442,8 +484,6 @@ namespace WpfApp1.ViewModel
                 Where(m => !m.Isdelete).ToObservableCollection();
             OnPropertyChanged(nameof(ListBillMaterail));
 
-
-            //C_Materail = _ListBill.ToObservableCollection();
         }
         private void FillJustMaterail ()
         {
@@ -455,6 +495,24 @@ namespace WpfApp1.ViewModel
             //    Qantity = _NumbMaterial
             //}).ToObservableCollection();
             //OnPropertyChanged(nameof(mymaterails));
+        }
+        private void ClrM()
+        {
+            _NameMaterial = "";
+            _price = 0;
+            _nameType = "";
+            OnPropertyChanged(nameof(NameMaterial));
+            OnPropertyChanged(nameof(price));
+            OnPropertyChanged(nameof(nameType));
+        }
+        private void ClrB()
+        {
+            _NameBill = "";
+            OnPropertyChanged(nameof(NameBill));
+            _CountBill = 0;
+            OnPropertyChanged(nameof(CountBill));
+            _totlPrice = 0;
+            OnPropertyChanged(nameof(totlPrice));
         }
         #endregion
 
@@ -477,8 +535,8 @@ namespace WpfApp1.ViewModel
             public string Name { get; set; }
             public double Price { get; set; }
 
-            private int _Qantity;
-            public int Qantity
+            private double _Qantity;
+            public double Qantity
             {
                 get { return _Qantity; }
                 set { _Qantity = value; }
@@ -572,7 +630,7 @@ namespace WpfApp1.ViewModel
             set { _namein = value; }
         }
 
-        private string _NameMaterial;
+        private string _NameMaterial="";
         public string NameMaterial
         {
             get { return _NameMaterial; }
@@ -607,7 +665,7 @@ namespace WpfApp1.ViewModel
         #endregion
 
         #region -   Number  -
-        private double _price;
+        private double _price=0;
         public double price
         {
             get { return _price; }
@@ -626,14 +684,14 @@ namespace WpfApp1.ViewModel
             get { return _CountBill; }
             set { _CountBill = value; }
         }
-        private int _NumbMaterial;
-        public int NumbMaterial
+        private double _NumbMaterial;
+        public double NumbMaterial
         {
             get { return _NumbMaterial; }
             set { _NumbMaterial = value; }
         }
-        private int _totlPrice;
-        public int totlPrice
+        private double _totlPrice;
+        public double totlPrice
         {
             get { return _totlPrice; }
             set { _totlPrice = value; }
@@ -648,7 +706,12 @@ namespace WpfApp1.ViewModel
             get { return _IsOpenAdd; }
             set { _IsOpenAdd = value; }
         }
-
+        private bool _IsOpenBill;
+        public bool IsOpenBill
+        {
+            get { return _IsOpenBill; }
+            set { _IsOpenBill = value; }
+        }
 
         #endregion
 
