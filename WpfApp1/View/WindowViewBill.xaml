@@ -27,8 +27,8 @@
                     <StackPanel HorizontalAlignment="Right" Width="300">
                         <TextBlock FontSize="16" Margin="3" Text="Search Name Bill "/>
                         <Grid>
-                            <TextBox Text="{Binding NameBill}" HorizontalAlignment="Left" Width="250" Height="32"/>
-                            <Button Command="{Binding CommandSearch}" HorizontalAlignment="Right" Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}">
+                            <TextBox Text="{Binding NameBill,UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Width="250" Height="32"/>
+                            <Button Command="{Binding CommandSearch,UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Right" Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}">
                                 <materialDesign:PackIcon Height="25" Width="20" Kind="FeatureSearchOutline" />
                             </Button>
                         </Grid>

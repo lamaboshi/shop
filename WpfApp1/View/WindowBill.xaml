@@ -42,14 +42,14 @@
                         <!--عرض-->
                         <DataGridTemplateColumn Header="Number Materail" >
                             <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
+                                <DataTemplate >
                                     <Grid Height="50" Width="65">
-                                        <TextBlock Width="30" HorizontalAlignment="Left"  Text="{Binding DataContext.NumbMaterial,RelativeSource={RelativeSource AncestorType={x:Type DataGrid}},UpdateSourceTrigger=PropertyChanged}" Margin="3" VerticalAlignment="Center" Height="40" />
+                                        <TextBlock Width="30" HorizontalAlignment="Left"  Text="{Binding Qantity,UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="3" VerticalAlignment="Center" Height="40" />
                                         <StackPanel HorizontalAlignment="Right">
-                                            <Button Command="{Binding DataContext.CommandPlusOne,RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" Height="20" Width="20" Margin="3" VerticalAlignment="Top">
+                                            <Button CommandParameter="{Binding Id}" Command="{Binding DataContext.CommandPlusOne,RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" Height="20" Width="20" Margin="3" VerticalAlignment="Top">
                                                 <materialDesign:PackIcon  Kind="ArrowUpBoldBoxOutline" />
                                             </Button>
-                                            <Button Command="{Binding DataContext.CommandMinusOne,RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"   Height="20" Width="20" Margin="3" VerticalAlignment="Bottom">
+                                            <Button CommandParameter="{Binding Id}" Command="{Binding DataContext.CommandMinusOne,RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"   Height="20" Width="20" Margin="3" VerticalAlignment="Bottom">
                                                 <materialDesign:PackIcon Width="14" Height="12" HorizontalAlignment="Center" Kind="ArrowDownBoldBoxOutline" />
                                             </Button>
                                         </StackPanel>
@@ -57,12 +57,11 @@
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
-                        <DataGridTextColumn Header="Final price" Binding="{Binding Qantity}" />
                     </DataGrid.Columns>
                     
                 </DataGrid>
             </Grid>
-            <Grid Grid.Row="2">
+            <Grid Grid.Row="2" >
                 <!--طباعة-->
                 <Button Background="#FF3B4583" Margin="5,5,130,5" Width="110" Height="50" HorizontalAlignment="Right">
                     <TextBlock Text="Print" Foreground="Beige" ></TextBlock>
@@ -72,7 +71,8 @@
                     <TextBlock Text="Save" Foreground="Beige" ></TextBlock>
                 </Button>
                 <!--السعر النهائي-->
-                <TextBox FontSize="20" Margin="5" Width="150" Text="{Binding totlPrice}" HorizontalAlignment="Left" VerticalAlignment="Center" materialDesign:HintAssist.Hint="Totile" Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
+
+                <TextBox FontSize="20" Margin="5" Width="150"  Text="{Binding totlPrice,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" VerticalAlignment="Center" materialDesign:HintAssist.Hint="Totile" Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
             </Grid>
         </Grid>
     </Grid>

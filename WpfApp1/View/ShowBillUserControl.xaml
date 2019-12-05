@@ -13,7 +13,7 @@
             <RowDefinition/>
             <RowDefinition/>
         </Grid.RowDefinitions>-->
-                <Border BorderThickness="5"  BorderBrush="Black" Width="450" Height="370">
+                <Border BorderThickness="5" BorderBrush="Black" Width="380" Height="370">
             <Grid>
                 <Grid.RowDefinitions>
             <RowDefinition Height="*" />
@@ -23,9 +23,9 @@
                 <DataGrid Grid.Row="0"  Margin="2"  Background= "White" CanUserAddRows="False"  CanUserDeleteRows="False" 
                         AutoGenerateColumns="False" ItemsSource="{Binding mymaterails,UpdateSourceTrigger=PropertyChanged,NotifyOnSourceUpdated=True,NotifyOnTargetUpdated=True }"  >
                     <DataGrid.Columns >
-                        <DataGridTextColumn Header="Number Bill" Binding="{Binding Number}" />
-                         <DataGridTextColumn  Header="Name Bill" Binding="{Binding Name}"/>
-                        <DataGridTextColumn  Header="Totile Price" Binding="{Binding Totile}" />
+                        <DataGridTextColumn Header="Number Materails" Binding="{Binding Qantity}" />
+                        <DataGridTextColumn  Header="Name Materails" Binding="{Binding Name}"/>
+                        <DataGridTextColumn  Header="Price Materails" Binding="{Binding Price}" />
                     </DataGrid.Columns>
          
             </DataGrid>

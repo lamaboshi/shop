@@ -103,8 +103,8 @@
                 <Button Command="{Binding CommandRest,UpdateSourceTrigger=PropertyChanged}" Background="#FF3B4583" VerticalAlignment="Bottom" HorizontalAlignment="Left"  Margin="65 5 5 5" Width="40" Height="30">
                     <materialDesign:PackIcon Kind="DeleteRestore"  HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </Button>
-                <Button Background="#FF3B4583" Margin="5" Command="{Binding CommandOpenAdd}"  Name="AddBtn" Width="135" Height="50" HorizontalAlignment="Center">
-                    <TextBlock Text="Add New Type" Foreground="Beige" />
+                <Button Background="#FF3B4583" Margin="5" Command="{Binding CommandOpenAdd}"  Name="AddBtn" Width="155" Height="50" HorizontalAlignment="Center">
+                    <TextBlock Text="Add New Materail" Foreground="Beige"  />
                 </Button>
                 <Button Background="#FF3B4583" Margin="5" Command="{Binding CommandGoBill}"   Width="100" Height="50" HorizontalAlignment="Right" Click="Button_Click_1">
                     <TextBlock Text="Bill" Foreground="Beige" />
