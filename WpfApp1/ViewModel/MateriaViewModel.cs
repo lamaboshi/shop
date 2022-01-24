@@ -231,6 +231,7 @@ namespace WpfApp1.ViewModel
                 {
                     var getListMaterail = _CollecMaterail.Where(m => IDM.Contains(m.Id));
                     _mymaterails.Clear();
+
                     _CountBill = _ListBill.Select(s => s.Number).Max() + 1;
                     OnPropertyChanged(nameof(CountBill));
                     foreach (var item in getListMaterail)
@@ -273,11 +274,6 @@ namespace WpfApp1.ViewModel
                     _itembuy = 0;
                     OnPropertyChanged(nameof(itembuy));
                     IDM.Clear();
-                    // _mymaterails.ToList().AddRange(
-                    //     _CollecMaterail.Where(m=>IDM.Contains(m.Id)).Select(m=>new JustMaterail() { 
-
-                    //     })
-                    //     );
 
                 });
             }
@@ -620,6 +616,7 @@ namespace WpfApp1.ViewModel
             set
             {
                 _ListBillMaterail = value;
+               
             }
         }
         #endregion

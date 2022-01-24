@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace WpfApp1.Util.Command
 {
-    internal class WeakEventManager
+    internal class WeakEventManager  
     {
         private readonly Dictionary<string, List<WeakEventManager.Subscription>> _eventHandlers = new Dictionary<string, List<WeakEventManager.Subscription>>();
 
